@@ -8,6 +8,9 @@ use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
+use Modules\Shop\Repositories\Front\Interfaces\ProductRepositoryInterfaces;
+use Modules\Shop\Repositories\Front\ProductRepository;
+
 class ShopServiceProvider extends ServiceProvider
 {
     use PathNamespace;
@@ -27,6 +30,7 @@ class ShopServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
+        $this->registerRepositories();
     }
 
     /**
@@ -150,5 +154,12 @@ class ShopServiceProvider extends ServiceProvider
         }
 
         return $paths;
+    }
+
+    private function registerRepositories() {
+        $this->app->bind(
+            ProductRepositoryInterfaces::class,
+            ProductRepository::class
+        );
     }
 }

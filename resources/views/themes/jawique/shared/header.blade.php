@@ -9,13 +9,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="input-group mx-auto mt-5 mt-lg-0">
-                    <input type="text" class="form-control" placeholder="Mau cari apa...?"
-                        aria-label="Recipient’s username" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" placeholder="Cari..."
+                        aria-label="Cari..." aria-describedby="button-addon2">
                     <button class="btn btn-outline-warning" type="button" id="button-addon2"><i
                             class='bx  bx-search-big'></i></button>
                 </div>
                 <ul class="navbar-nav ms-auto mt-3 mt-sm-0">
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                         <a class="nav-link active" href="#"><i
                                 class='bx  bx-heart bx-rotate-90 bx-flip-horizontal'></i></a>
                     </li>
@@ -31,7 +31,7 @@
                             aria-expanded="false">
                             Menu
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="#">Home</a></li>
                             <li><a class="dropdown-item" href="#">Best Seller</a></li>
                             <li><a class="dropdown-item" href="#">New Arrival</a></li>

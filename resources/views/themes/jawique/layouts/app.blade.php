@@ -8,7 +8,15 @@
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <title>JawiQue: Fashion Store</title>
     <!-- Scripts Buat Css & Js-->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/themes/jawique/main.css'])
+    @vite(['resources/sass/app.scss',
+                        'resources/js/app.js',
+                        //Css
+                        'resources/views/themes/jawique/assets/css/main.css',
+                        'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.css',
+                        //Js
+                        'resources/views/themes/jawique/assets/js/main.js',
+                        'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.min.js',
+                    ])
 
 </head>
 
@@ -16,15 +24,14 @@
 
     <!-- Bagian Navbar -->
     @include('themes.jawique.shared.header')
-
-    <!-- Bagian Header Menu & Slide -->
-    @include('themes.jawique.shared.slider')
     
     <!-- Bagian Tengah (Menu Populer & Terbaru) -->
     @yield('content')
     
     <!-- Bagian Footer -->
     @include('themes.jawique.shared.footer')
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 </body>
 

@@ -98,4 +98,8 @@ class Product extends Model
    public function images() {
         return $this->hasMany(ProductImage::class, 'product_id');
     }
+
+    public function getPriceLabelAttribute() {
+        return number_format($this->price);
+    }
 }

@@ -22,11 +22,11 @@ class Tag extends Model
         return TagFactory::new();
     }
 
-   // public function products() {
-    //    return $this->belongsToMany('Modules\Shop\Models\Product', 
-     //   'shop_products_tags',
-      //   'tag_id',
-       //   'product_id'
-       // );
-   // }
+   public function products() {
+    return $this->belongsToMany(Product::class, 
+     'shop_products_tags',
+      'tag_id',
+       'product_id'
+       );
+   }
 }

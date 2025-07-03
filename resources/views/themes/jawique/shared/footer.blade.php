@@ -11,9 +11,10 @@
                     <h3 class="mb-3">Navigasi</h3>
                     <ul class="p-0">
                         <li><a href="#" class="text-dark">Home</a></li>
+                        <li class="mt-3"><a href="#" class="text-dark">Best Seller</a></li>
                         <li class="mt-3"><a href="#" class="text-dark">Kategori</a></li>
                         <li class="mt-3"><a href="#" class="text-dark">Komunitas</a></li>
-                        <li class="mt-3"><a href="#" class="text-dark">Best Seller</a></li>
+                        <li class="mt-3"><a href="#" class="text-dark">Blog</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mt-4 mt-sm-0">

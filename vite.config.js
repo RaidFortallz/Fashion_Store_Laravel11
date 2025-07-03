@@ -7,7 +7,13 @@ export default defineConfig({
             input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
-                'resources/css/themes/jawique/main.css',
+                
+                //Css
+                'resources/views/themes/jawique/assets/css/main.css',
+                'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.css',
+                //Js
+                'resources/views/themes/jawique/assets/js/main.js',
+                'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.min.js',
             ],
             refresh: true,
         }),
