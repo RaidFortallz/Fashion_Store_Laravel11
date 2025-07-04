@@ -14,6 +14,9 @@ use Modules\Shop\Repositories\Front\ProductRepository;
 use Modules\Shop\Repositories\Front\Interfaces\CategoryRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\CategoryRepository;
 
+use Modules\Shop\Repositories\Front\Interfaces\TagRepositoryInterfaces;
+use Modules\Shop\Repositories\Front\TagRepository;
+
 class ShopServiceProvider extends ServiceProvider
 {
     use PathNamespace;
@@ -168,6 +171,11 @@ class ShopServiceProvider extends ServiceProvider
         $this->app->bind(
             CategoryRepositoryInterfaces::class,
             CategoryRepository::class
+        );
+
+        $this->app->bind(
+            TagRepositoryInterfaces::class,
+            TagRepository::class
         );
     }
 }

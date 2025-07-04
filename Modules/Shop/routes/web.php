@@ -10,6 +10,9 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 //Route List Kategori
 Route::get('/category/{categorySlug}', [ProductController::class, 'category'])->name('products.category');
 
+//Route Filter Produk Tag
+Route::get('/tag/{tagSlug}', [ProductController::class, 'tag'])->name('products.tag');
+
 //Route Kategori Produk
 Route::get('/{categorySlug}/{productSlug}', [ProductController::class, 'show'])->name('products.show');
 
