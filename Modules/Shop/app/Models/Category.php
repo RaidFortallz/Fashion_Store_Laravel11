@@ -38,4 +38,21 @@ class Category extends Model
           'category_id'
        );
    }
+
+   public static function childIDs($parentID = null) {
+
+    $categories = Category::select('id', 'name', 'parent_id')
+    ->where('parent_id', $parentID)
+    ->get();
+
+    $childIDs = [];
+    if (!empty($categories)) {
+        foreach ($categories as $category) {
+            $childIDs[] = $category->id;
+            $childIDs = array_merge($childIDs, Category::childIDs($category->id));
+        }
+    }
+
+        return $childIDs;
+   }
 }

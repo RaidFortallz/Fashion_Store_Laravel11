@@ -23,7 +23,7 @@
           <section class="col-lg-9 col-md-12 products">
             <div class="card mb-4 bg-body-tertiary border-0 section-header">
               <div class="card-body p-5">
-                <h2 class="mb-0">Aksesoris</h2>
+                <h2 class="mb-0">Kategori: {{ $category->name }}</h2>
               </div>
             </div>
             <div class="row">

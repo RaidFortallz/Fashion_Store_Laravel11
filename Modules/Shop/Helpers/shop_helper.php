@@ -8,7 +8,15 @@ if (!function_exists('shop_product_link')) {
             $categorySlug = $product->categories->first()->slug;
         }
 
-        return url($categorySlug . '/' . $product->slug . '_' . $product->sku);
+        $productSlug = $product->slug . '-' . $product->sku;
+        
+        return route('products.show', [$categorySlug, $productSlug]);
 
+    }
+}
+
+if (!function_exists('shop_category_link')) {
+    function shop_category_link($category) {
+        return route('products.category', [$category->slug]);
     }
 }

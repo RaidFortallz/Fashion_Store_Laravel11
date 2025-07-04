@@ -11,6 +11,9 @@ use RecursiveIteratorIterator;
 use Modules\Shop\Repositories\Front\Interfaces\ProductRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\ProductRepository;
 
+use Modules\Shop\Repositories\Front\Interfaces\CategoryRepositoryInterfaces;
+use Modules\Shop\Repositories\Front\CategoryRepository;
+
 class ShopServiceProvider extends ServiceProvider
 {
     use PathNamespace;
@@ -160,6 +163,11 @@ class ShopServiceProvider extends ServiceProvider
         $this->app->bind(
             ProductRepositoryInterfaces::class,
             ProductRepository::class
+        );
+
+        $this->app->bind(
+            CategoryRepositoryInterfaces::class,
+            CategoryRepository::class
         );
     }
 }
