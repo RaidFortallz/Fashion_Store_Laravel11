@@ -102,4 +102,23 @@ class Product extends Model
     public function getPriceLabelAttribute() {
         return number_format($this->price);
     }
+
+    public function getHasSalePriceAttribute() {
+        return $this->sale_price != null;
+    }
+
+     public function getSalePriceLabelAttribute() {
+        return number_format($this->sale_price);
+    }
+
+    public function getDiscountPercentAttribute() {
+        $discount_percent = (($this->price - $this->sale_price) / $this->price * 100);
+
+        return number_format($discount_percent);
+    }
+
+    public function getStockStatusLabelAttribute() {
+        return self::STOCK_STATUSES[$this->stock_status];
+    }
 }
+

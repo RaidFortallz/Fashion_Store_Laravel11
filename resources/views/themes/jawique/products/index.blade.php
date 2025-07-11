@@ -33,24 +33,12 @@
                 </div>
                 <div class="d-flex mt-2 mt-lg-0">
                   <div class="me-2 flex-grow-1">
-                    <!-- select option -->
-                    <select class="form-select">
-                      <option selected="">Menampilkan: 50</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                      <option value="30">30</option>
-                    </select>
+                      &nbsp;
                   </div>
                   <div>
-                    <!-- select option -->
-                    <select class="form-select">
-                      <option selected="">Sort by: Terkenal</option>
-                      <option value="Low to High">Harga: Bawah ke Atas</option>
-                      <option value="High to Low"> Harga: Atas ke Bawah</option>
-                      <option value="Release Date"> Tgl Rilis</option>
-                      <option value="Avg. Rating"> Rating Rata-rata</option>
-    
-                    </select>
+                    {!! html()->select('sorting', $sortingOptions,
+                     $sortingQuery)->class(['form-select'])->attribute('onchange', 
+                     'this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);') !!}
                   </div>
                 </div>
               </div>

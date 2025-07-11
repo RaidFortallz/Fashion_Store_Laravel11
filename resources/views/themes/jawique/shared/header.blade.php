@@ -1,5 +1,5 @@
 <!-- Nav Bar -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top py-4 shadow-sm">
+<nav class="navbar navbar-expand-lg bg-gradient-custom fixed-top py-4 shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="#">Jawi<span>Que</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

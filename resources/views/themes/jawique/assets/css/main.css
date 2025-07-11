@@ -82,6 +82,10 @@ a:hover {
   }
 }
 
+.bg-gradient-custom {
+  background: linear-gradient(to right, #ffecd2, #ff6f61);
+}
+
 .navbar .navbar-brand {
   color: #A3C933;
   font-size: 22px;
@@ -453,7 +457,7 @@ hr {
 
 footer {
   margin-top: 150px;
-  background-color: #FBF4E2;
+   background: linear-gradient(to right, #ffecd2 , #ff6f61);
   color: #3B3A60;
   font-size: 14px;
 }

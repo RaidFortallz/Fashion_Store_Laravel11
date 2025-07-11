@@ -16,7 +16,12 @@ class ProductRepository implements ProductRepositoryInterfaces {
         
         $tagSlug = $options['filter']['tag'] ?? null;
 
+        $priceFilter = $options['filter']['price'] ?? null;
+
+        $sort = $options['sort'] ?? null;
+
         $products = Product::with(['categories', 'tags']);
+
 
         if ($categorySlug) {
             $category = Category::where('slug', $categorySlug)->firstOrFail();
@@ -38,10 +43,23 @@ class ProductRepository implements ProductRepositoryInterfaces {
             });
         }
 
+        if ($priceFilter) {
+            $products = $products->where('price', '>=', $priceFilter['min'])
+            ->where('price', '<=', $priceFilter['max']);
+        }
+
+        if ($sort) {
+            $products = $products->orderBy($sort['sort'], $sort['order']);
+        }
+
         if ($perPage) {
             return $products->paginate($perPage);
         }
 
         return $products->get();
+    }
+
+    public function findBySKU($sku) {
+        return Product::where('sku', $sku)->firstOrFail();
     }
 }
