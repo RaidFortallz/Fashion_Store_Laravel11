@@ -73,17 +73,24 @@
                 @endif
             </div>
             <hr class="my-6">
-            <div class="product-select mt-3 row justify-content-start g-2 align-items-center">
-              <div class="col-md-2 col-2">
+              @include('themes.jawique.shared.flash')
+              {{ html()->form('post', route('carts.store'))->open() }}
+
+              <input type="hidden" name="product_id" value="{{ $product->id }}">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <div style="width: 100px;">
                 <input type="number" name="qty" value="1" class="form-control" min="1" />
               </div>
-              <div class="col-xxl-4 col-lg-4 col-md-5 col-5 d-grid">
-                <button type="button" class="btn btn-add-cart"><i class='bx bx-cart'></i> Add to cart</button>
-              </div>
-              <div class="col-md-4 col-4">
-                <a class="btn btn-light" href="shop-wishlist.html" data-bs-toggle="tooltip" data-bs-html="true"
+              
+              <button type="submit" class="btn btn-add-cart">
+                <i class='bx bx-cart'></i> Tambah ke keranjang
+              </button>
+              
+                <a class="btn btn-light" href="shop-wishlist.html" data-bs-toggle="tooltip"
                   aria-label="Wishlist"><i class="bx bx-heart"></i></a>
               </div>
+              {{ html()->form()->close() }}
+
             </div>
             <hr class="my-6">
             <div class="product-info">
@@ -94,7 +101,7 @@
                     <td>{{ $product->sku }}</td>
                   </tr>
                   <tr>
-                    <td>Availability:</td>
+                    <td>Stok:</td>
                     <td>{{ $product->stock_status_label }}</td>
                   </tr>
                   <tr>

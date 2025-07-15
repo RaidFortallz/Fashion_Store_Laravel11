@@ -62,4 +62,8 @@ class ProductRepository implements ProductRepositoryInterfaces {
     public function findBySKU($sku) {
         return Product::where('sku', $sku)->firstOrFail();
     }
+
+    public function findByID($id) {
+        return Product::where('id', $id)->firstOrFail();
+    }
 }

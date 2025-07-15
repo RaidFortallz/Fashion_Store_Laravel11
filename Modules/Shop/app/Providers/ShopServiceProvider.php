@@ -4,6 +4,8 @@ namespace Modules\Shop\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Shop\Repositories\Front\AddressRepository;
+use Modules\Shop\Repositories\Front\CartRepository;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -13,7 +15,8 @@ use Modules\Shop\Repositories\Front\ProductRepository;
 
 use Modules\Shop\Repositories\Front\Interfaces\CategoryRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\CategoryRepository;
-
+use Modules\Shop\Repositories\Front\Interfaces\AddressRepositoryInterfaces;
+use Modules\Shop\Repositories\Front\Interfaces\CartRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\Interfaces\TagRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\TagRepository;
 
@@ -176,6 +179,16 @@ class ShopServiceProvider extends ServiceProvider
         $this->app->bind(
             TagRepositoryInterfaces::class,
             TagRepository::class
+        );
+
+         $this->app->bind(
+            CartRepositoryInterfaces::class,
+            CartRepository::class
+        );
+
+        $this->app->bind(
+            AddressRepositoryInterfaces::class,
+            AddressRepository::class
         );
     }
 }

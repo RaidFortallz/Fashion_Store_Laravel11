@@ -29,6 +29,7 @@ class Product extends Model
         'excerpt',
         'body',
         'metas',
+        'weight',
     ];
 
     protected $table = 'shop_products';
@@ -47,8 +48,8 @@ class Product extends Model
     public const STATUS_OUT_OF_STOCK = 'OUT_OF_STOCK';
 
     public const STOCK_STATUSES = [
-        self::STATUS_IN_STOCK => 'In Stock',
-        self::STATUS_OUT_OF_STOCK => 'Out of Stock',
+        self::STATUS_IN_STOCK => 'Tersedia',
+        self::STATUS_OUT_OF_STOCK => 'Tidak Tersedia',
     ];
 
     public const SIMPLE = 'SIMPLE';
@@ -100,7 +101,7 @@ class Product extends Model
     }
 
     public function getPriceLabelAttribute() {
-        return number_format($this->price);
+        return number_format($this->price, 0, ',', '.');
     }
 
     public function getHasSalePriceAttribute() {
@@ -108,7 +109,7 @@ class Product extends Model
     }
 
      public function getSalePriceLabelAttribute() {
-        return number_format($this->sale_price);
+        return number_format($this->sale_price, 0, ',', '.');
     }
 
     public function getDiscountPercentAttribute() {
@@ -119,6 +120,14 @@ class Product extends Model
 
     public function getStockStatusLabelAttribute() {
         return self::STOCK_STATUSES[$this->stock_status];
+    }
+
+    public function getStockAttribute() {
+        if (!$this->inventory) {
+            return 0;
+        }
+
+        return $this->inventory->qty;
     }
 }
 
