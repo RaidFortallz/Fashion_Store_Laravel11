@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Modules\Shop\Models\Product;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-       // $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -23,6 +24,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('themes.jawique.home');
+        $latestProducts = Product::where('status', Product::ACTIVE)
+                                 ->latest()
+                                 ->take(8)
+                                 ->get();
+        
+        $popularProducts = Product::where('status', Product::ACTIVE)
+                                  ->inRandomOrder() 
+                                  ->take(4)
+                                  ->get();
+
+        return view('themes.jawique.home', [
+            'latestProducts' => $latestProducts,
+            'popularProducts' => $popularProducts,
+        ]);
     }
 }
