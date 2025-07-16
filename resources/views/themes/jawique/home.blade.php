@@ -1,14 +1,11 @@
 @extends('themes.jawique.layouts.app')
 
-{{-- Bagian Header Menu & Slide --}}
 @include('themes.jawique.shared.slider')
 
 @section('content')
 
-{{-- KODE DIPERBAIKI: Library SweetAlert2 dimuat di luar kondisi 'if' --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- SweetAlert Notifikasi untuk Sukses (sekarang hanya menjalankan fungsi) --}}
 @if (session('success') || session('status'))
 <script>
     document.addEventListener('DOMContentLoaded', function () {
