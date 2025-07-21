@@ -18,6 +18,7 @@ Route::get('/tag/{tagSlug}', [ProductController::class, 'tag'])->name('products.
 //Route Keranjang & Checkout
 Route::middleware(['auth'])->group(function() {
     Route::get('orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+    Route::post('orders/checkout', [OrderController::class, 'store'])->name('orders.store');
     Route::post('orders/shipping-fee', [OrderController::class, 'shippingFee'])->name('orders.shipping_fee');
     
     Route::post('orders/choose_package', [OrderController::class, 'choosePackage'])->name('orders.choose_package');

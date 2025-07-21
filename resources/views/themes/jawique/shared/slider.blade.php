@@ -3,8 +3,8 @@
 <div class="container menu-wrapper fixed-top d-none d-lg-block">
         <div class="menu d-flex justify-content-center align-items-center">
             <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">Produk</a>
             <a class="nav-link" href="#">Best Seller</a>
-            <a class="nav-link" href="#">New Arrival</a>
             <a class="nav-link" href="#">Blog</a>
         </div>
     </div>
@@ -20,16 +20,21 @@
                         aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#product-images" data-bs-slide-to="2"
                         aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#product-images" data-bs-slide-to="3"
+                        aria-label="Slide 4"></button>
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active" data-bs-interval="2100">
-                        <img src="{{ asset('themes/jawique/assets/img/jawir.png') }}" class="d-block w-100 carousel-img" alt="...">
+                        <img src="{{ asset('themes/jawique/assets/img/fashion1.jpg') }}" class="d-block w-100 carousel-img" alt="...">
                     </div>
                     <div class="carousel-item" data-bs-interval="2100">
-                        <img src="{{ asset('themes/jawique/assets/img/banner2.jpg') }}" class="d-block w-100 carousel-img" alt="...">
+                        <img src="{{ asset('themes/jawique/assets/img/fashion2.jpg') }}" class="d-block w-100 carousel-img" alt="...">
                     </div>
                     <div class="carousel-item" data-bs-interval="2100">
-                        <img src="{{ asset('themes/jawique/assets/img/banner3.jpg') }}" class="d-block w-100 carousel-img" alt="...">
+                        <img src="{{ asset('themes/jawique/assets/img/fashion4.jpg') }}" class="d-block w-100 carousel-img" alt="...">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2100">
+                        <img src="{{ asset('themes/jawique/assets/img/fashion3.jpg') }}" class="d-block w-100 carousel-img" alt="...">
                     </div>
                     
                 </div>

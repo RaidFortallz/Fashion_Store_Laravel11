@@ -110,7 +110,7 @@
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-start">
                                                 <div class="me-auto">
-                                                    <div>Biaya Admin</div>
+                                                    <div>Pajak (11%)</div>
                                                 </div>
                                                 <span>{{ $cart->tax_amount_label }}</span>
                                             </li>

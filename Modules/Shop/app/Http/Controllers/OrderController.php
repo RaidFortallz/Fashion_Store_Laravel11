@@ -5,19 +5,24 @@ namespace Modules\Shop\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Modules\Shop\Repositories\Front\Interfaces\AddressRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\Interfaces\CartRepositoryInterfaces;
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
+use Modules\Shop\Repositories\Front\Interfaces\OrderRepositoryInterfaces;
 
 class OrderController extends Controller
 {
     protected $addressRepository;
     protected $cartRepository;
+    protected $orderRepository;
     
-    public function __construct(AddressRepositoryInterfaces $addressRepository, CartRepositoryInterfaces $cartRepository) {
+    public function __construct(AddressRepositoryInterfaces $addressRepository, 
+    CartRepositoryInterfaces $cartRepository, OrderRepositoryInterfaces $orderRepository) {
         $this->addressRepository = $addressRepository;
         $this->cartRepository = $cartRepository;
+        $this->orderRepository = $orderRepository;
     }
     public function checkout() {
         $user = Auth::user();
@@ -26,6 +31,56 @@ class OrderController extends Controller
         $this->data['addresses'] = $this->addressRepository->findByUser($user);
         
         return $this->loadTheme('orders.checkout', $this->data);
+    }
+
+    public function store(Request $request) {
+        $user = Auth::user();
+
+        $address = $this->addressRepository->findByID($request->get('address_id'));
+        $cart = $this->cartRepository->findByUser($user);
+        $selectedShipping = $this->getSelectedShipping($request);
+        
+        DB::beginTransaction();
+        try {
+            $order = $this->orderRepository->create($request->user(), $cart, $address, $selectedShipping);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
+
+        $this->cartRepository->clear($user);
+
+        return redirect($order->payment_url);
+    }
+
+    private function getSelectedShipping(Request $request) {
+        $user = Auth::user();
+
+        $address = $this->addressRepository->findByID($request->get('address_id'));
+        $cart = $this->cartRepository->findByUser($user);
+        
+        $availableServices = $this->calculateShippingFee($cart, $address, $request->get('courier'));
+
+        $selectedPackage = null;
+        if (!empty($availableServices)) {
+            foreach ($availableServices as $service) {
+                if ($service['service'] === $request->get('delivery_package')) {
+                    $selectedPackage = $service;
+                    continue;
+                }
+            }
+        }
+
+        if ($selectedPackage == null) {
+            return [];
+        }
+
+        return [
+            'delivery_package' => $request->get('delivery_package'),
+            'courier' => $request->get('courier'),
+            'shipping_fee' => number_format($selectedPackage['cost'], 0, ',', '.'),
+        ];
     }
 
     public function shippingFee(Request $request) {

@@ -6,10 +6,40 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * App\Models\Cart
+ *
+ * @property string $id
+ * @property string|null $user_id
+ * @property \Illuminate\Support\Carbon $expired_at
+ * @property string $base_total_price
+ * @property string $tax_amount
+ * @property string $tax_percent
+ * @property string $discount_amount
+ * @property string $discount_percent
+ * @property string $grand_total
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ *
+ * @property \App\Models\User|null $user
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Cart newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cart newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cart query()
+ * @method static \Illuminate\Database\Query\Builder|Cart onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Cart withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Cart withoutTrashed()
+ *
+ * @mixin \Eloquent
+ */
+
 
 class Cart extends Model
 {
-    use UuidTrait;
+    use UuidTrait, SoftDeletes;
 
     protected $table = 'shop_carts';
     protected $fillable = [
@@ -17,6 +47,8 @@ class Cart extends Model
         'expired_at',
         'base_total_price',
         'discount_amount',
+        'discount_percent',
+        'tax_percent',
         'tax_amount',
         'grand_total',
         'total_weight',

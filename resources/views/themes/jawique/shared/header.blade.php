@@ -37,8 +37,8 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li><a class="dropdown-item" href="#">Home</a></li>
+                        <li><a class="dropdown-item" href="#">Produk</a></li>
                         <li><a class="dropdown-item" href="#">Best Seller</a></li>
-                        <li><a class="dropdown-item" href="#">New Arrival</a></li>
                         <li><a class="dropdown-item" href="#">Blog</a></li>
                     </ul>
                 </div>

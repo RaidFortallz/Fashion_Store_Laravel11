@@ -23,6 +23,7 @@ class CartRepository implements CartRepositoryInterfaces {
             return Cart::create([
                 'user_id' => $user->id,
                 'expired_at' => now()->addDays(7),
+                'tax_percent' =>  floatval(env('TAX_PERCENT', 11) / 100)
             ]);
         }
 
@@ -64,6 +65,11 @@ class CartRepository implements CartRepositoryInterfaces {
     return CartItem::where('id', $id)->delete();
    }
 
+   public function clear(User $user): void
+   {
+    Cart::forUser($user)->delete();
+   }
+
    public function updateQty($items = []): void
    {
     if (!empty($items)) {
@@ -81,6 +87,7 @@ class CartRepository implements CartRepositoryInterfaces {
         $baseTotalPrice = 0;
         $taxAmount = 0;
         $discountAmount = 0;
+        $discountPercent = 0;
         $grandTotal = 0;
         $totalWeight = 0;
 
@@ -101,10 +108,15 @@ class CartRepository implements CartRepositoryInterfaces {
         $taxAmount = 0.11 * $nettTotal;
         $grandTotal = $nettTotal + $taxAmount;
 
+        if ($baseTotalPrice) {
+        $discountPercent = ($discountAmount / $baseTotalPrice) * 100;
+        }
+
         $cart->update([
             'base_total_price' => $baseTotalPrice,
             'tax_amount' => $taxAmount,
             'discount_amount' => $discountAmount,
+            'discount_percent' => $discountPercent,
             'grand_total' => $grandTotal,
             'total_weight' => $totalWeight,
         ]);
