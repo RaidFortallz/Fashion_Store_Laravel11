@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Modules\Shop\Http\Controllers\CartController;
 use Modules\Shop\Http\Controllers\OrderController;
+use Modules\Shop\Http\Controllers\PaymentController;
 use Modules\Shop\Http\Controllers\ShopController;
 use Modules\Shop\Http\Controllers\ProductController;
 
@@ -14,6 +16,12 @@ Route::get('/category/{categorySlug}', [ProductController::class, 'category'])->
 
 //Route Filter Produk Tag
 Route::get('/tag/{tagSlug}', [ProductController::class, 'tag'])->name('products.tag');
+
+
+//Route Pembayaran
+Route::post('/payments/midtrans', [PaymentController::class, 'midtrans'])
+->withoutMiddleware([VerifyCsrfToken::class])->name('payments.midtrans');
+
 
 //Route Keranjang & Checkout
 Route::middleware(['auth'])->group(function() {

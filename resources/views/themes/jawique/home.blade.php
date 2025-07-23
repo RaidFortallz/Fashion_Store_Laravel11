@@ -61,7 +61,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-5">
             <h1 class="mb-0">Produk Terbaru</h1>
-            <a href="#" class="btn-first">Lihat Semua <i class='bx bx-right-arrow-alt ms-1'></i></a>
+            <a href="{{ route('products.index') }}" class="btn-first">Lihat Semua <i class='bx bx-right-arrow-alt ms-1'></i></a>
         </div>
 
         <div class="row">
