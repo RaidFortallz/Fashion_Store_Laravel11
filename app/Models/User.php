@@ -46,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * DITAMBAHKAN: Mendefinisikan relasi bahwa User memiliki banyak Address.
+     */
+    public function addresses()
+    {
+        return $this->hasMany(\Modules\Shop\Models\Address::class);
+    }
 }

@@ -7,6 +7,7 @@ use Modules\Shop\Http\Controllers\OrderController;
 use Modules\Shop\Http\Controllers\PaymentController;
 use Modules\Shop\Http\Controllers\ShopController;
 use Modules\Shop\Http\Controllers\ProductController;
+use Modules\Shop\Http\Controllers\AddressController;
 
 //Route Produk
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -41,5 +42,11 @@ Route::middleware(['auth'])->group(function() {
 Route::get('/{categorySlug}/{productSlug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/search-destination', [OrderController::class, 'searchDestination'])->name('public.search-destination');
+
+//Route Kategori alamat
+Route::middleware('auth')->group(function () {
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+});
 
 

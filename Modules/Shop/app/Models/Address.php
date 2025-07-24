@@ -41,6 +41,7 @@ class Address extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
+          'user_id',
           'first_name',
           'last_name',
           'address1',
@@ -50,10 +51,16 @@ class Address extends Model
           'city',
           'province',
           'postcode',
+          'is_primary',
     ];
 
      protected static function newFactory(): AddressFactory
      {
           return AddressFactory::new();
      }
+
+     public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }

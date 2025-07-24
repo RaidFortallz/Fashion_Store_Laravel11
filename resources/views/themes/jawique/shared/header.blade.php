@@ -53,14 +53,30 @@
                 @endguest
 
                 @auth
-                    <li class="nav-item mt-5 mt-lg-0">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button class="nav-link btn-second me-lg-3 text-center" 
-                                style="background: none; border: none; padding: 0;">
-                                Logout ({{ Auth::user()->name }})
-                            </button>
-                        </form>
+                    <li class="nav-item dropdown mt-5 mt-lg-0">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @if (Auth::user()->avatar)
+                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Avatar" class="avatar-sm me-2">
+                            @else
+                                <img src="https://placehold.co/40x40/ff6f61/white?text={{ substr(Auth::user()->name, 0, 1) }}" alt="Avatar" class="avatar-sm me-2">
+                            @endif
+                            {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profil Saya</a></li>
+                            <li><a class="dropdown-item" href="#">Pesanan Saya</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 @endauth
             </ul>
