@@ -52,6 +52,7 @@ class Address extends Model
           'province',
           'postcode',
           'is_primary',
+          'label',
     ];
 
      protected static function newFactory(): AddressFactory

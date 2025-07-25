@@ -5,23 +5,23 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Kategori
+                        Produk
                     </div>
                     <h2 class="page-title">
-                        Daftar Kategori
+                        Daftar Produk
                     </h2>
                 </div>
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">                        
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-category">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-product-create">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 5l0 14" />
                                 <path d="M5 12l14 0" />
                             </svg>
-                            Tambah Kategori
+                            Tambah Produk
                         </a>
                         
                     </div>
@@ -36,7 +36,7 @@
                     <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Kategori</h3>
+                            <h3 class="card-title">Produk</h3>
                         </div>
                         <div class="card-body border-bottom py-3">
                             <div class="d-flex">
@@ -55,35 +55,58 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 p-3">
+                        @if (session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+                            @if (session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
+                            @endif
+                        </div>
                         <div class="table-responsive">
                             <table class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                     <tr>
-                                        <th>SLUG</th>
-                                        <th>NAMA</th>
+                                        <th>Gambar</th>
+                                        <th>SKU</th>
+                                        <th>Nama</th>
+                                        <th>Harga</th>
+                                        <th>Status</th>
+                                        <th>Stok</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($categories as $category)
+                                    @forelse ($products as $product)
                                     <tr>                                        
                                         <td>
-                                            {{ $category->name }}
+                                            <span class="avatar me-3" style="background-image: url(https://placehorder.jp/150x150.png)"></span>
                                         </td>
                                         <td>
-                                            {{ $category->slug }}
+                                            {{ $product->sku }}
+                                        </td>
+                                        <td>
+                                            {{ $product->name }}
+                                        </td>
+                                        <td>
+                                            {{ $product->price }}
+                                        </td>
+                                        <td>
+                                            {{ $product->status }}
+                                        </td>
+                                        <td>
+                                            {{ $product->stock_status }}
                                         </td>
                                         
                                         <td class="text-end">
-                                            <a wire:click="$dispatch('edit-category', {id:'{{ $category->id }}'})" href="#" class="btn btn-outline-primary btn-sm btn-pill w-20" data-bs-toggle="modal"
-                                            data-bs-target="#modal-category">Edit </a>
-                                            <a wire:click="delete('{{ $category->id }}')" wire:confirm="Anda yakin ingin menghapus ini?" href="#" class="btn btn-outline-primary btn-sm btn-pill w-20"><span class="danger"> Hapus </span></a>
+                                            <a href="{{ route('admin.products.update', [$product->id]) }}" class="btn btn-outline-primary btn-sm btn-pill w-20">Edit </a>
+                                            <a wire:click="delete('{{ $product->id }}')" wire:confirm="Anda yakin ingin menghapus ini?" href="#" class="btn btn-outline-primary btn-sm btn-pill w-20"><span class="danger"> Hapus </span></a>
                                         </td>
                                     </tr>
                                     @empty
                                     <tr>
                                         <td colspan="3">
-                                            Kategori kosong.
+                                            Produk kosong.
                                         </td>
                                     </tr>
                                     @endforelse
@@ -91,12 +114,14 @@
                             </table>
                         </div>
                         <div class="card-footer d-flex align-items-center">
-                            {{ $categories->links() }}
+                            {{ $products->links() }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <livewire:admin.category.create-update-category/>
+    
+    <livewire:admin.product.product-create/>
+
 </div>

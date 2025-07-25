@@ -11,6 +11,7 @@ export default defineConfig({
                 //Css
                 'resources/views/themes/jawique/assets/css/main.css',
                 'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.css',
+                
                 //Js
                 'resources/views/themes/jawique/assets/js/main.js',
                 'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.min.js',

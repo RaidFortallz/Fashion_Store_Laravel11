@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Shop\Models\Address; 
+use Illuminate\Support\Facades\Log;
+
+
 
 class AddressController extends Controller
 {
@@ -30,19 +33,56 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {   
-        $request->validate([
+        $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address1' => 'required|string',
-            'province' => 'required|string',
-            'city' => 'required|string',
+            'address2' => 'nullable|string|max:255',
+            'province' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
             'postcode' => 'required|string|max:10',
+            'address_type_label' => 'required|in:Rumah,Kantor'
         ]);
 
-        Auth::user()->addresses()->create($request->all());
+        $user = Auth::user();
+
+        $isPrimary = ($request->get('address_type_label') === 'Kantor') ? 1 : 0;
+
+        $validatedData['label'] = $request->get('address_type_label');
+        $validatedData['is_primary'] = $isPrimary;
+        $validatedData['user_id'] = $user->id;
+
+        unset($validatedData['address_type_label']);
+
+        if ($validatedData['is_primary'] == 1) {
+            $user->addresses()->where('is_primary', 1)->update(['is_primary' => 0]);
+        } else {
+            if ($user->addresses()->where('is_primary', 1)->doesntExist()) {
+                $validatedData['is_primary'] =1;
+            }
+        }
+
+        $user->addresses()->create($validatedData);
 
         return redirect()->route('profile.show')->with('success', 'Alamat baru berhasil ditambahkan!');
+    }
+    
+
+    public function setPrimary(Address $address)
+    {
+        if ($address->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Nonaktifkan semua primary address user ini
+        Auth::user()->addresses()->where('is_primary', 1)->update(['is_primary' => 0]);
+
+        // Jadikan alamat ini primary
+        $address->is_primary = 1;
+        $address->save();
+
+        return redirect()->route('profile.show')->with('success', 'Alamat utama berhasil diubah.');
     }
 
     /**

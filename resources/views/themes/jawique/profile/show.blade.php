@@ -80,68 +80,139 @@
                             </div>
 
                             {{-- KODE DIPERBAIKI: Tab Alamat dengan daftar dan form --}}
-                            <div class="tab-pane fade" id="v-pills-address" role="tabpanel" aria-labelledby="v-pills-address-tab">
-                                <h4 class="mb-4">Alamat Pengiriman</h4>
-                                
-                                <!-- Daftar Alamat yang Sudah Ada -->
-                                @forelse ($user->addresses as $address)
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            <h6 class="card-title">{{ $address->first_name }} {{ $address->last_name }}</h6>
-                                            <p class="card-text small text-muted mb-1">{{ $address->phone }}</p>
-                                            <p class="card-text small text-muted">{{ $address->address1 }}, {{ $address->city }}, {{ $address->province }} {{ $address->postcode }}</p>
-                                            <form action="{{ route('addresses.destroy', $address) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus alamat ini?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <p class="text-muted">Anda belum menambahkan alamat pengiriman.</p>
-                                @endforelse
+<div class="tab-pane fade" id="v-pills-address" role="tabpanel" aria-labelledby="v-pills-address-tab">
+    <h4 class="mb-4">Alamat Pengiriman</h4>
+    
+    @forelse ($user->addresses as $address)
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6 class="card-title">{{ $address->first_name }} {{ $address->last_name }} 
+                    @if ($address->is_primary)
+                        <span class="badge bg-success ms-2">Utama</span>
+                    @endif
+                </h6>
+                <p class="card-text small text-muted mb-1">
+                    {{ $address->phone }} 
+                    @if ($address->email)
+                        <br>{{ $address->email }}
+                    @endif
+                </p>
+                <p class="card-text small text-muted">
+                    {{ $address->address1 }}
+                    @if ($address->address2)
+                        , {{ $address->address2 }}
+                    @endif
+                    , {{ $address->city }}, {{ $address->province }} {{ $address->postcode }}
+                </p>
+                @if ($address->label)
+                    <p class="card-text small fw-bold">Tipe: {{ $address->label }}</p>
+                @endif
+                <form action="{{ route('addresses.destroy', $address) }}" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus alamat ini?');" class="d-inline-block me-2">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                </form>
+                @if (!$address->is_primary)
+                    <form action="{{ route('addresses.set_primary', $address) }}" method="POST" class="d-inline-block">
+                        @csrf
+                        @method('PUT') <button type="submit" class="btn btn-sm btn-outline-primary">Set Utama</button>
+                    </form>
+                @endif
+            </div>
+        </div>
+    @empty
+        <p class="text-muted">Anda belum menambahkan alamat pengiriman.</p>
+    @endforelse
 
-                                <hr class="my-4">
+    <hr class="my-4">
 
-                                <!-- Form Tambah Alamat Baru -->
-                                <h5 class="mb-3">Tambah Alamat Baru</h5>
-                                <form action="{{ route('addresses.store') }}" method="POST">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="first_name" class="form-label">Nama Depan</label>
-                                            <input type="text" class="form-control" name="first_name" required>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="last_name" class="form-label">Nama Belakang</label>
-                                            <input type="text" class="form-control" name="last_name" required>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="phone" class="form-label">Nomor Telepon</label>
-                                        <input type="text" class="form-control" name="phone" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="address1" class="form-label">Alamat Lengkap</label>
-                                        <textarea class="form-control" name="address1" rows="3" required></textarea>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="city" class="form-label">Kota/Kabupaten</label>
-                                            <input type="text" class="form-control" name="city" required>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="province" class="form-label">Provinsi</label>
-                                            <input type="text" class="form-control" name="province" required>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="postcode" class="form-label">Kode Pos</label>
-                                        <input type="text" class="form-control" name="postcode" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-success-custom">Tambah Alamat</button>
-                                </form>
+    <h5 class="mb-3">Tambah Alamat Baru</h5>
+<form action="{{ route('addresses.store') }}" method="POST">
+    @csrf
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="first_name" class="form-label">Nama Depan</label>
+            <input type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="last_name" class="form-label">Nama Belakang</label>
+            <input type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Nomor Telepon</label>
+        <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="address1" class="form-label">Alamat Lengkap</label>
+        <textarea class="form-control" name="address1" rows="3" required>{{ old('address1') }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="address2" class="form-label">Detail Alamat (Opsional, ex: Blok A No. 12)</label>
+        <input type="text" class="form-control" name="address2" value="{{ old('address2') }}">
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="province" class="form-label">Provinsi</label>
+            <select class="form-select @error('province') is-invalid @enderror" name="province" id="province" required>
+                <option value="">Pilih Provinsi</option>
+                <option value="JAWA BARAT" {{ old('province') == 'JAWA BARAT' ? 'selected' : '' }}>Jawa Barat</option>
+                <option value="DKI JAKARTA" {{ old('province') == 'DKI JAKARTA' ? 'selected' : '' }}>DKI Jakarta</option>
+                <option value="BANTEN" {{ old('province') == 'BANTEN' ? 'selected' : '' }}>Banten</option>
+                </select>
+            @error('province')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="city" class="form-label">Kota/Kecamatan</label>
+            <select class="form-select @error('city') is-invalid @enderror" name="city" id="city" required>
+                <option value="">Pilih Kota/Kecamatan</option>
+                <optgroup label="Jawa Barat - Bandung">
+                    <option value="4870" {{ old('city') == '4870' ? 'selected' : '' }}>Bandung (Kota Bandung)</option>
+                    <option value="4871" {{ old('city') == '4871' ? 'selected' : '' }}>Bandung (Kabupaten Bandung)</option>
+                    <option value="4866" {{ old('city') == '4866' ? 'selected' : '' }}>Bandung (Kecamatan Bandung Kidul - Batununggal)</option>
+                    <option value="4816" {{ old('city') == '4816' ? 'selected' : '' }}>Bandung (Kecamatan Cileunyi)</option>
+                    </optgroup>
+                <optgroup label="DKI Jakarta">
+                    <option value="268" {{ old('city') == '268' ? 'selected' : '' }}>Jakarta Pusat (Gambir)</option>
+                    <option value="252" {{ old('city') == '252' ? 'selected' : '' }}>Jakarta Utara (Kelapa Gading)</option>
+                    <option value="259" {{ old('city') == '259' ? 'selected' : '' }}>Jakarta Barat (Cengkareng)</option>
+                    <option value="255" {{ old('city') == '255' ? 'selected' : '' }}>Jakarta Selatan (Kebayoran Baru)</option>
+                    <option value="249" {{ old('city') == '249' ? 'selected' : '' }}>Jakarta Timur (Cakung)</option>
+                    <option value="360" {{ old('city') == '360' ? 'selected' : '' }}>Kepulauan Seribu (Pulau Pramuka)</option>
+                </optgroup>
+                <optgroup label="Banten">
+                    <option value="508" {{ old('city') == '508' ? 'selected' : '' }}>Tangerang (Tangerang)</option>
+                    <option value="509" {{ old('city') == '509' ? 'selected' : '' }}>Tangerang Selatan (Serpong)</option>
+                    <option value="423" {{ old('city') == '423' ? 'selected' : '' }}>Cilegon (Cibeber)</option>
+                    <option value="427" {{ old('city') == '427' ? 'selected' : '' }}>Serang (Serang)</option>
+                </optgroup>
+                </select>
+                            @error('city')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postcode" class="form-label">Kode Pos</label>
+                        <input type="text" class="form-control" name="postcode" value="{{ old('postcode') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipe Alamat</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="address_type_label" id="labelRumah" value="Rumah" {{ old('address_type_label', 'Rumah') == 'Rumah' ? 'checked' : '' }} required>
+                                <label class="form-check-label" for="labelRumah">Rumah</label>
                             </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="address_type_label" id="labelKantor" value="Kantor" {{ old('address_type_label') == 'Kantor' ? 'checked' : '' }} required>
+                                <label class="form-check-label" for="labelKantor">Kantor</label>
+                            </div>
+                        </div>
+                        @error('address_type_label')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                    </div>
+                    <button type="submit" class="btn btn-success-custom">Tambah Alamat</button>
+                </form>
+                </div>
 
                             <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
                                 <h4 class="mb-4">Riwayat Pesanan</h4>

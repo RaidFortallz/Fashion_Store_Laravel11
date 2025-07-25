@@ -100,6 +100,8 @@ class OrderRepository implements OrderRepositoryInterfaces {
             'email' => $order->customer_email,
         ];
 
+        $finishRedirectUrl = route('carts.index');
+
         $params = [
             'enable_payment' => Payment::PAYMENT_CHANNELS,
             'transaction_details' => [
@@ -111,6 +113,11 @@ class OrderRepository implements OrderRepositoryInterfaces {
                 'start_time' => date('Y-m-d H:i:s T'),
                 'unit' => Payment::EXPIRY_UNIT,
                 'duration' => Payment::EXPIRY_DURATION,
+            ],
+            'callbacks' => [
+                'finish' => $finishRedirectUrl,
+                'error' => route('orders.checkout'),
+                'unfinish' => route('orders.checkout'),
             ]
         ];
 

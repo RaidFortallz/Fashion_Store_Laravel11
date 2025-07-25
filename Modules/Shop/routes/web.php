@@ -47,6 +47,7 @@ Route::get('/search-destination', [OrderController::class, 'searchDestination'])
 Route::middleware('auth')->group(function () {
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
     Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+    Route::put('/addresses/{address}/set-primary', [AddressController::class, 'setPrimary'])->name('addresses.set_primary');
 });
 
 
