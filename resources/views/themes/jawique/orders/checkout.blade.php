@@ -28,10 +28,12 @@
                         <div class="col-lg-7 col-md-6">
                             <form action="{{ route('orders.store') }}" method="post">
                                 @csrf
-                            <div class="d-flex justify-content-between">
-                                <h5 class="mb-0"><i class='bx bx-map'></i> Alamat Pengiriman</h5>
-                                <a href="#" class="btn btn-outline-secondary btn-sm">Tambah alamat baru</a>
-                            </div>
+                         <!-- Tombol Tambah Alamat Baru -->
+<div class="d-flex justify-content-between mb-3">
+    <h5 class="mb-0"><i class='bx bx-map'></i> Alamat Pengiriman</h5>
+    <a href="#" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">Tambah alamat baru</a>
+</div>
+
                             <div class="mt-3">
                                 <div class="row">
                                     @forelse ($addresses as $address)
@@ -172,6 +174,108 @@
                 </section>
             </div>
         </div>
+
+<!-- Modal Tambah Alamat Baru -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content p-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="addAddressModalLabel">Tambah Alamat Baru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <form action="{{ route('addresses.store') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">Nama Depan</label>
+                            <input type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Nama Belakang</label>
+                            <input type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Nomor Telepon</label>
+                        <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address1" class="form-label">Alamat Lengkap</label>
+                        <textarea class="form-control" name="address1" rows="3" required>{{ old('address1') }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address2" class="form-label">Detail Alamat (Opsional, ex: Blok A No. 12)</label>
+                        <input type="text" class="form-control" name="address2" value="{{ old('address2') }}">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="province" class="form-label">Provinsi</label>
+                            <select class="form-select @error('province') is-invalid @enderror" name="province" id="province" required>
+                                <option value="">Pilih Provinsi</option>
+                                <option value="JAWA BARAT" {{ old('province') == 'JAWA BARAT' ? 'selected' : '' }}>Jawa Barat</option>
+                                <option value="DKI JAKARTA" {{ old('province') == 'DKI JAKARTA' ? 'selected' : '' }}>DKI Jakarta</option>
+                                <option value="BANTEN" {{ old('province') == 'BANTEN' ? 'selected' : '' }}>Banten</option>
+                            </select>
+                            @error('province')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="city" class="form-label">Kota/Kecamatan</label>
+                            <select class="form-select @error('city') is-invalid @enderror" name="city" id="city" required>
+                                <option value="">Pilih Kota/Kecamatan</option>
+                                <optgroup label="Jawa Barat - Bandung">
+                                    <option value="4870" {{ old('city') == '4870' ? 'selected' : '' }}>Bandung (Kota Bandung)</option>
+                                    <option value="4871" {{ old('city') == '4871' ? 'selected' : '' }}>Bandung (Kabupaten Bandung)</option>
+                                    <option value="4866" {{ old('city') == '4866' ? 'selected' : '' }}>Bandung (Kecamatan Bandung Kidul - Batununggal)</option>
+                                    <option value="4816" {{ old('city') == '4816' ? 'selected' : '' }}>Bandung (Kecamatan Cileunyi)</option>
+                                </optgroup>
+                                <optgroup label="DKI Jakarta">
+                                    <option value="268" {{ old('city') == '268' ? 'selected' : '' }}>Jakarta Pusat (Gambir)</option>
+                                    <option value="252" {{ old('city') == '252' ? 'selected' : '' }}>Jakarta Utara (Kelapa Gading)</option>
+                                    <option value="259" {{ old('city') == '259' ? 'selected' : '' }}>Jakarta Barat (Cengkareng)</option>
+                                    <option value="255" {{ old('city') == '255' ? 'selected' : '' }}>Jakarta Selatan (Kebayoran Baru)</option>
+                                    <option value="249" {{ old('city') == '249' ? 'selected' : '' }}>Jakarta Timur (Cakung)</option>
+                                    <option value="360" {{ old('city') == '360' ? 'selected' : '' }}>Kepulauan Seribu (Pulau Pramuka)</option>
+                                </optgroup>
+                                <optgroup label="Banten">
+                                    <option value="508" {{ old('city') == '508' ? 'selected' : '' }}>Tangerang (Tangerang)</option>
+                                    <option value="509" {{ old('city') == '509' ? 'selected' : '' }}>Tangerang Selatan (Serpong)</option>
+                                    <option value="423" {{ old('city') == '423' ? 'selected' : '' }}>Cilegon (Cibeber)</option>
+                                    <option value="427" {{ old('city') == '427' ? 'selected' : '' }}>Serang (Serang)</option>
+                                </optgroup>
+                            </select>
+                            @error('city')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postcode" class="form-label">Kode Pos</label>
+                        <input type="text" class="form-control" name="postcode" value="{{ old('postcode') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipe Alamat</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="address_type_label" id="labelRumah" value="Rumah" {{ old('address_type_label', 'Rumah') == 'Rumah' ? 'checked' : '' }} required>
+                                <label class="form-check-label" for="labelRumah">Rumah</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="address_type_label" id="labelKantor" value="Kantor" {{ old('address_type_label') == 'Kantor' ? 'checked' : '' }} required>
+                                <label class="form-check-label" for="labelKantor">Kantor</label>
+                            </div>
+                        </div>
+                        @error('address_type_label')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-success-custom">Simpan Alamat</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     </section>
 
     @endsection
