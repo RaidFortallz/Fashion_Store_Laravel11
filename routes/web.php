@@ -14,7 +14,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Route Admin
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function() {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function() {
     Route::get('/dashboard', Dashboard::class)->name('dashboard.index');
     Route::get('/categories', CategoryIndex::class)->name('categories.index');
     Route::get('/products', ProductIndex::class)->name('products.index');
