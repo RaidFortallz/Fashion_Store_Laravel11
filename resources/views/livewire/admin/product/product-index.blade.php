@@ -80,7 +80,7 @@
                                     @forelse ($products as $product)
                                     <tr>                                        
                                         <td>
-                                            <span class="avatar me-3" style="background-image: url(https://placehorder.jp/150x150.png)"></span>
+                                            <span class="avatar me-3" style="background-image: url({{ shop_product_image($product->image) }})"></span>
                                         </td>
                                         <td>
                                             {{ $product->sku }}

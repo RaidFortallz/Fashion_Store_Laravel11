@@ -22,11 +22,34 @@
           <div id="product-images" class="carousel slide" data-ride="carousel">
             <!-- slides -->
             <div class="carousel-inner">
-              <div class="carousel-item active"> <img src="{{ asset('images/jawir.jpg') }}" alt="Product 1"> </div>
-              <div class="carousel-item"> <img src="{{ asset('images/jawir.jpg') }}" alt="Product 2"> </div>
-              <div class="carousel-item"> <img src="{{ asset('images/jawir.jpg') }}" alt="Product 3"> </div>
-              <div class="carousel-item"> <img src="{{ asset('images/jawir.jpg') }}" alt="Product 4"> </div>
-            </div> <!-- Left right -->
+              @foreach ($product->images as $key => $image)
+                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                  <img src="{{ shop_product_image($image, 'img-large') }}"
+                    alt="{{ $product->name }}"
+                    class="d-block w-100"
+                    style="height: 500px; object-fit: cover; cursor: pointer;"
+                    data-bs-toggle="modal"
+                    data-bs-target="#imagePreviewModal"
+                    data-full="{{ shop_product_image($image, 'img-large') }}">
+                </div>
+              @endforeach
+            </div>
+
+            <!-- Modal Preview Gambar -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-body position-relative p-0">
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3 bg-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="backdrop-blur position-absolute top-0 start-0 w-100 h-100" style="z-index: -1; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px);"></div>
+        <img id="modalImage" src="" alt="Preview Gambar" class="img-fluid mx-auto d-block rounded shadow-lg" style="max-height: 90vh; object-fit: contain;">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+             <!-- Left right -->
             <button class="carousel-control-prev" type="button" data-bs-target="#product-images"
               data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -38,15 +61,16 @@
               <span class="visually-hidden">Next</span>
             </button>
             <!-- Thumbnails -->
-            <ol class="carousel-indicators list-inline">
-              <li class="list-inline-item active"> <a id="carousel-selector-0" class="active" data-bs-slide-to="0"
-                  data-bs-target="#product-images"> <img src="{{ asset('images/jawir.jpg') }}" class="img-fluid"> </a> </li>
-              <li class="list-inline-item"> <a id="carousel-selector-1" data-bs-slide-to="1" data-bs-target="#product-images">
-                  <img src="{{ asset('images/jawir.jpg') }}" class="img-fluid"> </a> </li>
-              <li class="list-inline-item"> <a id="carousel-selector-2" data-bs-slide-to="2" data-bs-target="#product-images">
-                  <img src="{{ asset('images/jawir.jpg') }}" class="img-fluid"> </a> </li>
-              <li class="list-inline-item"> <a id="carousel-selector-3" data-bs-slide-to="3" data-bs-target="#product-images">
-                  <img src="{{ asset('images/jawir.jpg') }}" class="img-fluid"> </a> </li>
+            <ol class="carousel-indicators list-inline mt-3">
+              @foreach ($product->images as $key => $image)
+                <li class="list-inline-item {{ $key == 0 ? 'active' : '' }}">
+                  <a href="" id="carousel-selector-{{ $key }}"
+                  data-bs-target="#product-images"
+                  data-bs-slide-to="{{ $key }}"
+                  class="{{ $key == 0 ? 'active' : '' }}">
+                <img src="{{ shop_product_image($image, 'img-thumb') }}" class="img-fluid" style="height: 60px; width: auto; object-fit: cover" alt=""></a>
+                </li>
+              @endforeach
             </ol>
           </div>
         </div>
@@ -170,3 +194,39 @@
     </div>
   </section>
 @endsection
+
+
+
+@push('scripts')
+<script>
+  let clickedImage = null;
+
+  // Saat gambar diklik, simpan elemennya
+  document.querySelectorAll('.carousel-inner img').forEach(img => {
+  img.addEventListener('click', function () {
+    const modalImage = document.getElementById('modalImage');
+    modalImage.src = this.src;
+
+    const modal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+    modal.show();
+  });
+});
+
+  // Saat modal sudah tampil penuh, baru inject src
+  const imagePreviewModal = document.getElementById('imagePreviewModal');
+  imagePreviewModal.addEventListener('shown.bs.modal', function () {
+    if (clickedImage) {
+      const modalImg = document.getElementById('modalImage');
+      modalImg.src = clickedImage.dataset.full;
+    }
+  });
+
+  // Bersihkan gambar saat modal ditutup (optional)
+  imagePreviewModal.addEventListener('hidden.bs.modal', function () {
+    const modalImg = document.getElementById('modalImage');
+    modalImg.src = '';
+    clickedImage = null;
+  });
+</script>
+@endpush
+

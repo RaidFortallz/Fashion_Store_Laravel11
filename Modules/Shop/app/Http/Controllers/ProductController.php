@@ -36,10 +36,10 @@ class ProductController extends Controller
         $this->sortingQuery = null;
         $this->data['sortingQuery'] = $this->sortingQuery;
         $this->data['sortingOptions'] = [
-            '' => '-- Sort Products --',
-            '?sort=price&order=asc' => 'Price: Low to High',
-            '?sort=price&order=desc' => 'Price: High to Low',
-            '?sort=publish_date&order=desc' => 'Newest Item',
+            '' => '-- Urutkan Produk --',
+            '?sort=price&order=asc' => 'Harga: Bawah ke Atas',
+            '?sort=price&order=desc' => 'Harga: Atas ke Bawah',
+            '?sort=publish_date&order=desc' => 'Produk terbaru',
         ];
         
     }

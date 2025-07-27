@@ -32,7 +32,9 @@
                 <div class="col-lg-3 col-6 mb-4">
                     <div class="card card-product border shadow-sm h-100">
                         <div class="card-img-wrapper overflow-hidden">
-                            <img src="{{ $product->featured_image ? asset('storage/'.$product->featured_image) : 'https://placehold.co/600x600/ff6f61/white?text=Produk' }}" class="card-img-top" alt="{{ $product->name }}">
+                            <a href="{{ shop_product_link($product) }}">
+                            <img src="{{ shop_product_image($product->image, 'img-large') }}" class="card-img-top" alt="{{ $product->name }}">
+                            </a>
                             <div class="card-actions">
                                 @guest
                                     <a href="javascript:void(0)" onclick="showLoginAlert()" class="btn btn-cart"><i class='bx bx-cart'></i></a>
@@ -51,7 +53,7 @@
                     </div>
                 </div>
             @empty
-                <div class="col"><p class="text-center">Tidak ada produk populer saat ini.</p></div>
+                <div class="col"><p class="text-center">Tidak ada produk diskon saat ini.</p></div>
             @endforelse
         </div>
     </div>
@@ -69,7 +71,9 @@
                 <div class="col-lg-3 col-6 mb-4">
                     <div class="card card-product border shadow-sm h-100">
                         <div class="card-img-wrapper overflow-hidden">
-                            <img src="{{ $product->featured_image ? asset('storage/'.$product->featured_image) : 'https://placehold.co/600x600/ff6f61/white?text=Produk' }}" class="card-img-top" alt="{{ $product->name }}">
+                            <a href="{{ shop_product_link($product) }}">
+                            <img src="{{ shop_product_image($product->image, 'img-large') }}" class="card-img-top" alt="{{ $product->name }}">
+                            </a>
                             <div class="card-actions">
                                 @guest
                                     <a href="javascript:void(0)" onclick="showLoginAlert()" class="btn btn-cart"><i class='bx bx-cart'></i></a>

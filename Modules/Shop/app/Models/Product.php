@@ -100,6 +100,10 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id');
     }
 
+    public function image() {
+        return $this->hasOne(ProductImage::class)->where('id', $this->featured_image);
+    }
+
     public function getPriceLabelAttribute() {
         return number_format($this->price, 0, ',', '.');
     }

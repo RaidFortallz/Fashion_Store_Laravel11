@@ -72,7 +72,7 @@
                                     <div>
                                         <input wire:model="sku" type="text" class="form-control @error('sku') is-invalid @enderror" name="sku" />
                                         <small class="form-hint">
-                                            Kode unik untuk produk.
+                                            Kode unik untuk produk. Ex.(Kaos Polos Hitam - KPL0001)
                                         </small>
                                         @error('sku')
                                         <span class="text-danger">{{$message}}</span>
@@ -109,11 +109,52 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Foto Produk (jpeg/png/jpg min:50kb - max:4mb)</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Unggah Foto (bisa lebih dari 1 foto)</label>
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror" wire:model="image" />
+                                    @error('image')
+                                    <span class="text-danger">{{$message}}</span>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Foto Produk</label>
+                                    <small class="form-hint mb-3">
+                                        Klik untuk menjadikan foto sampul/thumbnail.
+                                    </small>
+                                    <div class="row g-2">
+                                        @foreach ($product->images as $productImage)
+                                        <div class="col-6 col-sm-2 position-relative">
+                                            <button wire:click="deleteImage('{{ $productImage->id }}')" 
+                                                    type="button" 
+                                                    class="btn btn-danger position-absolute"
+                                                    style="top: 5%; right: 5%; font-size: 1em; padding: 0.3em 0.6em;"
+                                                    title="Hapus Gambar">
+                                                &times;
+                                            </button>
+                                            <label class="form-imagecheck mb-2">
+                                                <input wire:click="setFeaturedImage('{{ $productImage->id }}')" name="form-imagecheck-radio" type="radio" {{ ($product->featured_image == $productImage->id) ? 'checked' : ''}} value="1" class="form-imagecheck-input">
+                                                <span class="form-imagecheck-figure">
+                                                    <img src="{{ shop_product_image($productImage) }}" alt="{{ $productImage->name }}" class="form-imagecheck-image">
+                                                </span>
+                                            </label>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <div class="card-header">
-                            <h3 class="card-title">Setting</h3>
+                            <h3 class="card-title">Setelan</h3>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
@@ -142,11 +183,42 @@
                             <div class="mb-3">
                                 <label class="form-label">Harga Jual (Promo)</label>
                                 <div>
-                                    <input wire:model="sale_price" type="number" class="form-control @error('sale_price') is-invalid @enderror" name="sale_price" />
+                                    <input wire:model.defer="sale_price" type="number" class="form-control @error('sale_price') is-invalid @enderror" name="sale_price" />
                                     <small class="form-hint">
                                         Harga Jual (opsional)
                                     </small>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Kelola Stok</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div>
+                                        <label class="form-check">
+                                            <input wire:model="manage_stock" wire:change="changeManageStock" class="form-check-input" type="checkbox" />
+                                            <span class="form-check-label">aktifkan pengelolaan stok?</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                @if ($manage_stock)
+                                <div class="mb-3">
+                                    <label class="form-label required">Stok</label>
+                                    <div>
+                                        <input wire:model="qty" type="number" class="form-control @error('qty') is-invalid @enderror" name="qty" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Batas Stok Minimum</label>
+                                    <div>
+                                        <input wire:model="low_stock_threshold" type="number" class="form-control @error('low_stock_threshold') is-invalid @enderror" name="low_stock_threshold" />
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

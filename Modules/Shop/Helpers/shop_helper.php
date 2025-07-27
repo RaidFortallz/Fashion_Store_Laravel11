@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Shop\Models\ProductImage;
+
 if (!function_exists('shop_product_link')) {
     function shop_product_link($product) {
         $categorySlug = 'produk';
@@ -18,5 +20,22 @@ if (!function_exists('shop_product_link')) {
 if (!function_exists('shop_category_link')) {
     function shop_category_link($category) {
         return route('products.category', [$category->slug]);
+    }
+}
+
+if (!function_exists('shop_product_image')) {
+    function shop_product_image($productImage, $size = 'img-thumb') {
+        if (!$productImage) {
+            return ProductImage::DEFAULT_IMAGE;
+        }
+
+        $media = $productImage->getFirstMedia('products');
+
+        
+        if (!$media || !$media->hasGeneratedConversion($size)) {
+            return ProductImage::DEFAULT_IMAGE;
+        }  
+
+        return $media->getUrl($size);
     }
 }
