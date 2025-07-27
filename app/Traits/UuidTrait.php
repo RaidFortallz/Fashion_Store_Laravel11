@@ -6,21 +6,31 @@ use Illuminate\Support\Str;
 
 trait UuidTrait
 {
-    protected static function boot()
+    /**
+     * Boot the UUID trait for the model.
+     */
+    protected static function bootUuidTrait()
     {
-        parent::boot();
         static::creating(function ($model) {
-            $model->incrementing = false;
-            $model->keyType = 'string';
-            $model->{$model->getKeyName()} = Str::orderedUuid()->toString();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->incrementing = false;
+                $model->keyType = 'string';
+                $model->{$model->getKeyName()} = (string) Str::orderedUuid();
+            }
         });
     }
 
+    /**
+     * UUID is non-incrementing.
+     */
     public function getIncrementing()
     {
         return false;
     }
-    
+
+    /**
+     * UUID key type is string.
+     */
     public function getKeyType()
     {
         return 'string';

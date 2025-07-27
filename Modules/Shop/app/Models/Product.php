@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Shop\Database\Factories\ProductFactory;
 use App\Traits\UuidTrait;
-
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
     use HasFactory, UuidTrait;
- 
+
     protected $fillable = [
         'parent_id',
         'user_id',
@@ -64,6 +64,25 @@ class Product extends Model
         return ProductFactory::new();
     }
 
+    // ✅ Tambahkan boot() untuk SKU unik
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($product) {
+            // Jika SKU kosong, generate otomatis
+            if (empty($product->sku)) {
+                $product->sku = 'SKU-' . strtoupper(Str::random(6));
+            }
+
+            // Pastikan SKU unik (loop sampai tidak ada duplikat)
+            while (self::where('sku', $product->sku)->exists()) {
+                $product->sku = 'SKU-' . strtoupper(Str::random(6));
+            }
+        });
+    }
+
+    // 🔹 Relasi
     public function user() {
         return $this->belongsTo(\App\Models\User::class);
     }
@@ -78,25 +97,25 @@ class Product extends Model
 
     public function categories() {
         return $this->belongsToMany(Category::class,
-         'shop_categories_products',
-         'product_id',
-         'category_id',
+            'shop_categories_products',
+            'product_id',
+            'category_id',
         );
     }
 
     public function tags() {
         return $this->belongsToMany(Tag::class,
-         'shop_products_tags',
-         'product_id',
-        'tag_id',
-    );
+            'shop_products_tags',
+            'product_id',
+            'tag_id',
+        );
     }
 
-   public function attributes() {
+    public function attributes() {
         return $this->hasMany(ProductAttribute::class, 'product_id');
     }
 
-   public function images() {
+    public function images() {
         return $this->hasMany(ProductImage::class, 'product_id');
     }
 
@@ -104,6 +123,7 @@ class Product extends Model
         return $this->hasOne(ProductImage::class)->where('id', $this->featured_image);
     }
 
+    // 🔹 Accessor
     public function getPriceLabelAttribute() {
         return number_format($this->price, 0, ',', '.');
     }
@@ -112,13 +132,12 @@ class Product extends Model
         return $this->sale_price != null;
     }
 
-     public function getSalePriceLabelAttribute() {
+    public function getSalePriceLabelAttribute() {
         return number_format($this->sale_price, 0, ',', '.');
     }
 
     public function getDiscountPercentAttribute() {
         $discount_percent = (($this->price - $this->sale_price) / $this->price * 100);
-
         return number_format($discount_percent);
     }
 
@@ -127,11 +146,6 @@ class Product extends Model
     }
 
     public function getStockAttribute() {
-        if (!$this->inventory) {
-            return 0;
-        }
-
-        return $this->inventory->qty;
+        return $this->inventory ? $this->inventory->qty : 0;
     }
 }
-

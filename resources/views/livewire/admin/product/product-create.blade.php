@@ -1,48 +1,53 @@
-<div wire:ignore.self class="modal modal-blur fade" id="modal-product-create" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Produk</h5>
-                <button wire:click="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
+<div x-data @close-product-modal.window="$('#modal-product-create').modal('hide')">
+    <div wire:ignore.self class="modal fade" id="modal-product-create" tabindex="-1" aria-labelledby="modalProductCreateLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalProductCreateLabel">Tambah Produk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="close"></button>
+                </div>
 
-                @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-                @endif
-                <div class="mb-3">
-                    <label class="form-label">SKU</label>
-                    <input wire:model="sku" type="text" class="form-control @error('sku') is-invalid @enderror" name="example-text-input" placeholder="">
-                    @error('sku')
-                    <span class="text-danger">{{$message}}</span>
-                    @enderror
+                <div class="modal-body">
+                    {{-- SKU --}}
+                    <div class="mb-3">
+                        <label>SKU</label>
+                        <input wire:model="sku" type="text" class="form-control @error('sku') is-invalid @enderror">
+                        @error('sku')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+
+                    {{-- Nama Produk --}}
+                    <div class="mb-3">
+                        <label>Nama Produk</label>
+                        <input wire:model="name" type="text" class="form-control @error('name') is-invalid @enderror">
+                        @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+
+                    {{-- Tipe Produk --}}
+                    <div class="mb-3">
+                        <label>Tipe Produk</label>
+                        <input wire:model="type" type="text" class="form-control @error('type') is-invalid @enderror" placeholder="contoh: aksesoris">
+                        @error('type')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+
+                    {{-- Kategori --}}
+                    <div class="mb-3">
+                        <label>Kategori</label>
+                        <select wire:model="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                            <option value="">-- Pilih Kategori --</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Nama</label>
-                    <input wire:model="name" type="text" class="form-control @error('name') is-invalid @enderror" name="example-text-input" placeholder="">
-                    @error('name')
-                    <span class="text-danger">{{$message}}</span>
-                    @enderror
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="close">Batal</button>
+                    <button type="button" class="btn btn-primary" wire:click="save">Simpan</button>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Type</label>
-                    <select wire:model="type" class="form-select">
-                        <option value="">Type</option>
-                        <option value="SIMPLE">SIMPLE</option>
-                    </select>
-                    @error('type')
-                    <span class="text-danger">{{$message}}</span>
-                    @enderror
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a wire:click="close" href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                    Batal
-                </a>
-                <button wire:click="save" type="button" class="btn btn-primary ms-auto">Simpan</button>
+
             </div>
         </div>
     </div>
