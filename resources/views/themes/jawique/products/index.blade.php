@@ -22,16 +22,6 @@
 
             <section class="col-lg-9 col-md-12 products">
 
-                <!-- ✅ Tombol Tambah Produk -->
-                <div class="mb-3">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-product-create">
-                        + Tambah Produk
-                    </button>
-                </div>
-
-                <!-- ✅ Render Komponen Modal Livewire -->
-                <livewire:admin.product.product-create />
-
                 <div class="card mb-4 bg-body-tertiary border-0 section-header">
                     <div class="card-body p-5">
                         <h2 class="mb-0">Aksesoris</h2>

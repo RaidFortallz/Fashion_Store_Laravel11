@@ -26,7 +26,7 @@
                     {{-- Tipe Produk --}}
                     <div class="mb-3">
                         <label>Tipe Produk</label>
-                        <input wire:model="type" type="text" class="form-control @error('type') is-invalid @enderror" placeholder="contoh: aksesoris">
+                        <input wire:model="type" type="text" class="form-control @error('type') is-invalid @enderror" placeholder="contoh: kemeja">
                         @error('type')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
 

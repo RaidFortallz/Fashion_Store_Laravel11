@@ -132,8 +132,8 @@
                                         <div class="col-6 col-sm-2 position-relative">
                                             <button wire:click="deleteImage('{{ $productImage->id }}')" 
                                                     type="button" 
-                                                    class="btn btn-danger position-absolute"
-                                                    style="top: 5%; right: 5%; font-size: 1em; padding: 0.3em 0.6em;"
+                                                    class="btn btn-danger"
+                                                    style="position: absolute; top: 5px; right: 5px; z-index: 10; font-size: 1.2em; padding: 0px 8px; line-height: 1; border-radius: 25%; opacity: 0.8;"
                                                     title="Hapus Gambar">
                                                 &times;
                                             </button>
