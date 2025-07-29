@@ -7,7 +7,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
             </ol>
         </nav>
     </div>
@@ -18,7 +18,7 @@
             <section class="col-lg-12 col-md-12 shopping-cart">
                 <div class="card mb-4 bg-light border-0 section-header">
                     <div class="card-body p-5">
-                        <h2 class="mb-0">Shopping Cart</h2>
+                        <h2 class="mb-0">Keranjang Belanja</h2>
                     </div>
                 </div>
                 <div class="row">

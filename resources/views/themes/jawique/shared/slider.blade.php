@@ -4,8 +4,7 @@
         <div class="menu d-flex justify-content-center align-items-center">
             <a class="nav-link active" href="{{ '/' }}">Home</a>
             <a class="nav-link" href="{{ route('products.index') }}">Produk</a>
-            <a class="nav-link" href="#">Best Seller</a>
-            <a class="nav-link" href="#">Blog</a>
+            <a class="nav-link" href="#">About</a>
         </div>
     </div>
 

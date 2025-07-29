@@ -45,6 +45,8 @@ class OrderRepository implements OrderRepositoryInterfaces {
             'discount_amount' => $cart->discount_amount,
             'discount_percent' => $cart->discount_percent,
             'shipping_cost' => $shippingFee,
+            'shipping_courier' => $shipping['courier'],
+            'shipping_service_name' => $shipping['delivery_package'],
             'grand_total' => $grandTotal,
             'customer_first_name' => $address->first_name,
             'customer_last_name' => $address->last_name,

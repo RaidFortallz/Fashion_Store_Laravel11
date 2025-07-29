@@ -2,6 +2,7 @@
 
 namespace Modules\Shop\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,8 @@ class Order extends Model
         'discount_amount',
         'discount_percent',
         'shipping_cost',
+        'shipping_courier',
+        'shipping_number',
         'grand_total',
         'customer_note',
         'customer_first_name',
@@ -52,6 +55,20 @@ class Order extends Model
     public const STATUS_RECEIVED = 'RECEIVED';
     public const STATUS_CANCELLED = 'CANCELLED';
     public const STATUS_RETURNED = 'RETURNED';
+
+    public const ACTION_CONFIRM = 'CONFIRM';
+    public const ACTION_PACKING = 'PACKING';
+    public const ACTION_DELIVER = 'DELIVER';
+    public const ACTION_CANCEL = 'CANCEL';
+    public const ACTION_CONFIRM_RECEIVED = 'CONFIRM_RECEIVED';
+
+    public const ACTION_LABELS = [
+        self::ACTION_CONFIRM => 'Konfirmasi',
+        self::ACTION_PACKING => 'Pengemasan',
+        self::ACTION_DELIVER => 'Pengiriman',
+        self::ACTION_CANCEL => 'Pembatalan',
+        self::ACTION_CONFIRM_RECEIVED => 'Konformasi diterima',
+    ];
 
     public const ORDER_CODE = 'ORDER';
 
@@ -89,5 +106,31 @@ class Order extends Model
 
     private static function isCodeExists($orderCode) {
         return Order::where('code', '=', $orderCode)->exists();
+    }
+
+    public function getOrderDateFormattedAttribute(): string {
+        return Carbon::parse($this->attributes['order_date'])->format('d M Y H:i');
+    }
+
+    public function getStatusBadgeAttribute(): string
+    {
+        switch ($this->status) {
+            case self::STATUS_PENDING:
+                return 'bg-indigo-lt';
+            case self::STATUS_DELIVERED:
+                return 'bg-yellow-lt';
+            case self::STATUS_CANCELLED:
+                return 'bg-red-lt';
+            case self::STATUS_CONFIRMED:
+                return 'bg-cyan-lt';
+            case self::STATUS_PACKAGING:
+                return 'bg-green-lt';
+            case self::STATUS_RECEIVED:
+                return 'bg-teal-lt';
+            case self::STATUS_RETURNED:
+                return 'text-secondary';
+            default:
+                return 'text-azure';
+        }
     }
 }

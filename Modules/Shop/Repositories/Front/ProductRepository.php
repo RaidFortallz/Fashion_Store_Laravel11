@@ -20,7 +20,13 @@ class ProductRepository implements ProductRepositoryInterfaces {
 
         $sort = $options['sort'] ?? null;
 
+        $search = $options['filter']['search'] ?? null;
+
         $products = Product::with(['categories', 'tags']);
+
+        if ($search) {
+            $products = $products->where('name', 'LIKE', '%' . $search . '%');
+        }
 
 
         if ($categorySlug) {

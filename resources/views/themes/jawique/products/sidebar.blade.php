@@ -1,6 +1,11 @@
 
 <!-- Sidebar Kategori UI -->
 <div class="sidebar">
+  <div class="sidebar-widget">
+    <div class="widget-title mb-3" style="font-size: large;">
+      <a href="{{ route('products.index') }}">Semua Produk</a>
+    </div>
+  </div>
     @if ($categories->count() > 0)
         <div class="sidebar-widget">
                 <div class="widget-title">

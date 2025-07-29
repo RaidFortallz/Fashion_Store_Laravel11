@@ -8,13 +8,13 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="input-group mx-auto mt-5 mt-lg-0">
-                <input type="text" class="form-control" placeholder="Cari..."
+            <form action="{{ route('products.index') }}" method="GET" class="input-group mx-auto mt-5 mt-lg-0">
+                <input type="text" name="q" class="form-control" placeholder="Cari produk..." value="{{ request('q') }}"
                     aria-label="Cari..." aria-describedby="button-addon2">
-                <button class="btn btn-outline-light" type="button" id="button-addon2">
+                <button class="btn btn-outline-light" type="submit" id="button-addon2">
                     <i class='bx bx-search-big'></i>
                 </button>
-            </div>
+            </form>
 
             <ul class="navbar-nav ms-auto mt-3 mt-sm-0">
                 <li class="nav-item me-3">
@@ -36,10 +36,9 @@
                         Menu
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Home</a></li>
-                        <li><a class="dropdown-item" href="#">Produk</a></li>
-                        <li><a class="dropdown-item" href="#">Best Seller</a></li>
-                        <li><a class="dropdown-item" href="#">Blog</a></li>
+                        <li><a class="dropdown-item" href="{{ '/' }}">Home</a></li>
+                        <li><a class="dropdown-item" href="{{ route('products.index') }}">Produk</a></li>
+                        <li><a class="dropdown-item" href="#">About</a></li>
                     </ul>
                 </div>
 

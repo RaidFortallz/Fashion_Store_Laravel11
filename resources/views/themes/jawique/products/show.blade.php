@@ -130,11 +130,7 @@
                             </tr>
                             <tr>
                                 <td>Type:</td>
-                                <td>Fruits</td>
-                            </tr>
-                            <tr>
-                                <td>Shipping:</td>
-                                <td><small>01 day shipping.<span class="text-muted">( Free pickup today)</span></small></td>
+                                <td>{{ $product->type ? ucfirst($product->type) : 'Tidak ada tipe' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -157,10 +153,10 @@
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-product-details-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-product-details" type="button" role="tab" aria-controls="nav-product-details"
-                                aria-selected="true">Details</button>
+                                aria-selected="true">Detail</button>
                         <button class="nav-link" id="nav-product-reviews-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-product-reviews" type="button" role="tab" aria-controls="nav-product-reviews"
-                                aria-selected="false">Reviews</button>
+                                aria-selected="false">Review</button>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -173,17 +169,17 @@
                     <div class="tab-pane fade p-3" id="nav-product-reviews" role="tabpanel"
                          aria-labelledby="nav-product-reviews-tab">
                         <div class="review-form">
-                            <h3>Write a review</h3>
+                            <h3>Tuliskan ulasan</h3>
                             <form>
                                 <div class="form-group">
-                                    <label>Your Name</label>
+                                    <label>Nama Kamu</label>
                                     <input type="text" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label>Your Review</label>
+                                    <label>Ulasan Kamu</label>
                                     <textarea cols="4" class="form-control"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary mt-3">Submit</button>
                             </form>
                         </div>
                     </div>

@@ -7,7 +7,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ '/' }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Products</li>
+                <li class="breadcrumb-item active" aria-current="page">Produk</li>
             </ol>
         </nav>
     </div>
@@ -24,7 +24,26 @@
 
                 <div class="card mb-4 bg-body-tertiary border-0 section-header">
                     <div class="card-body p-5">
-                        <h2 class="mb-0">Aksesoris</h2>
+                        <h2 class="mb-0">
+                            @if (request('q'))
+                                Hasil pencarian: "{{ request('q') }}"
+                            @else
+                                Produk
+                                @if (request('sort') && request('order'))
+                                    <small class="text-muted d-block mt-2" style="font-size: 18px;">
+                                        Disortir berdasarkan:
+                                        @switch(request('sort'))
+                                            @case('price')
+                                                Harga ({{ request('order') === 'asc' ? 'Termurah ke Termahal' : 'Termahal ke Termurah' }})
+                                                @break
+                                            @case('publish_date')
+                                                Produk Terbaru
+                                                @break
+                                        @endswitch
+                                    </small>
+                                @endif
+                            @endif
+                        </h2>
                     </div>
                 </div>
 
@@ -34,9 +53,13 @@
                         <div class="d-flex mt-2 mt-lg-0">
                             <div class="me-2 flex-grow-1">&nbsp;</div>
                             <div>
-                                {!! html()->select('sorting', $sortingOptions, $sortingQuery)
-                                    ->class(['form-select'])
-                                    ->attribute('onchange', 'this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);') !!}
+                                <select class="form-select" onchange="window.location.href=this.value">
+                                @foreach ($sortingOptions as $url => $label)
+                                    <option value="{{ url()->current() . $url }}" {{ $sortingQuery === $url ? 'selected' : '' }}>
+                                        {{ $label }}
+                                    </option>
+                                @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

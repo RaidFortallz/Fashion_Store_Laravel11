@@ -51,7 +51,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-5">
             <h1 class="mb-0">Produk Terbaru</h1>
-            <a href="{{ route('products.index') }}" class="btn-first">Lihat Semua <i class='bx bx-right-arrow-alt ms-1'></i></a>
+            <a href="{{ route('products.index') }}?sort=publish_date&order=desc" class="btn-first">Lihat Semua <i class='bx bx-right-arrow-alt ms-1'></i></a>
         </div>
 
         <div class="row">
@@ -86,24 +86,6 @@
             @empty
                 <div class="col"><p class="text-center">Tidak ada produk terbaru saat ini.</p></div>
             @endforelse
-        </div>
-    </div>
-</section>
-
-<section class="subscribe">
-    <div class="container">
-        <div class="subscribe-wrapper">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-6 col-md-7 col-10 col-sub">
-                    <h1>Subscribe Wir!</h1>
-                    <form action="#" class="mt-5">
-                        <div class="input-group w-100">
-                            <input type="email" class="form-control" placeholder="Type your email ..">
-                            <button class="btn btn-second">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </section>

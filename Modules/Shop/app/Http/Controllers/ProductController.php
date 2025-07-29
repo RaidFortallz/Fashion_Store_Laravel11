@@ -33,7 +33,7 @@ class ProductController extends Controller
         $this->data['categories'] = $this->categoryRepository->findAll();
         $this->data['filter']['price'] = $this->defaultPriceRange;
 
-        $this->sortingQuery = null;
+        $this->sortingQuery = request()->get('sort') ? '?sort=' . request()->get('sort') . '&order=' . request()->get('order') : null;
         $this->data['sortingQuery'] = $this->sortingQuery;
         $this->data['sortingOptions'] = [
             '' => '-- Urutkan Produk --',
@@ -65,6 +65,11 @@ class ProductController extends Controller
 
             $this->sortingQuery = '?sort=' . $sort['sort'] . '&order=' . $sort['order'];
             $this->data['sortingQuery'] = $this->sortingQuery;
+        }
+
+        if ($request->filled('q')) {
+            $options['filter']['search'] = $request->q;
+            $this->data['filter']['search'] = $request->q;
         }
         
         $this->data['products'] = $this->productRepository->findAll($options);
