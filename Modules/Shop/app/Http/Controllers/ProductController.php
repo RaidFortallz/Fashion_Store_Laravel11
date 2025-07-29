@@ -4,7 +4,7 @@ namespace Modules\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
+use Modules\Shop\Models\Product;
 use Modules\Shop\Repositories\Front\Interfaces\ProductRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\Interfaces\CategoryRepositoryInterfaces;
 use Modules\Shop\Repositories\Front\Interfaces\TagRepositoryInterfaces;
@@ -106,11 +106,10 @@ class ProductController extends Controller
     }
 
     public function show($categorySlug, $productSlug) {
-        $sku = Arr::last(explode('-', $productSlug));
+        // PERBAIKAN: Mencari produk berdasarkan 'slug' langsung.
+        // firstOrFail() akan otomatis menampilkan halaman 404 jika tidak ditemukan.
+        $product = Product::where('slug', $productSlug)->firstOrFail();
         
-        $product = $this->productRepository->findBySKU($sku);
-        
-
         $this->data['product'] = $product;
 
         return $this->loadTheme('products.show', $this->data);

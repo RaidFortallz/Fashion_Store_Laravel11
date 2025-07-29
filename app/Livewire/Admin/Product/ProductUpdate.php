@@ -7,8 +7,8 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Modules\Shop\Models\Product;
-use Modules\Shop\Models\ProductImage;
 use Modules\Shop\Repositories\Front\Interfaces\ProductRepositoryInterfaces;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductUpdate extends Component
 {
@@ -38,7 +38,6 @@ class ProductUpdate extends Component
         $this->price = (float) $this->product->price;
         $this->sale_price = $this->product->sale_price;
         $this->status = $this->product->status;
-
         $this->manage_stock = $this->product->manage_stock;
         
         if ($this->product->manage_stock && $this->product->inventory) {
@@ -152,28 +151,28 @@ class ProductUpdate extends Component
         ]);
     }
 
-    public function updatedImage() {
+    public function updatedImage()
+    {
         $this->validate([
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:4096', 'min:50']
         ]);
 
-        $productImage = ProductImage::create([
-            'product_id' => $this->product->id,
-            'name' => $this->image->getClientOriginalName(),
-        ]);
+        $this->product->addMedia($this->image->getRealPath())
+                      ->toMediaCollection('products');
 
-        $productImage->addMedia($this->image)
-        ->toMediaCollection('products')
-        ->fresh()
-        ->getGeneratedConversions();
+        $this->product = $this->product->fresh();
+        
+        $this->image = null;
+
+        session()->flash('success', 'Gambar berhasil ditambahkan!');
     }
 
-    public function deleteImage($iamgeId) {
-        $image = ProductImage::find($iamgeId);
+    public function deleteImage($mediaId) 
+    {
+        $media = Media::find($mediaId);
 
-        if ($image) {
-            $image->clearMediaCollection('products');
-            $image->delete();
+        if ($media) {
+            $media->delete();
         }
 
         $this->product = $this->product->fresh();
@@ -184,7 +183,8 @@ class ProductUpdate extends Component
     public function setFeaturedImage($id) {
         $this->product->featured_image = $id;
         $this->product->save();
+        $this->product = $this->product->fresh();
 
-        session('success', 'Foto diperbarui');
+        session()->flash('success', 'Foto diperbarui');
     }
 }

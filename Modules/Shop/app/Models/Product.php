@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Shop\Database\Factories\ProductFactory;
 use App\Traits\UuidTrait;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use HasFactory, UuidTrait;
+    use InteractsWithMedia, HasFactory, UuidTrait;
 
     protected $fillable = [
         'parent_id',
@@ -64,22 +67,27 @@ class Product extends Model
         return ProductFactory::new();
     }
 
-    // ✅ Tambahkan boot() untuk SKU unik
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($product) {
-            // Jika SKU kosong, generate otomatis
             if (empty($product->sku)) {
                 $product->sku = 'SKU-' . strtoupper(Str::random(6));
             }
-
-            // Pastikan SKU unik (loop sampai tidak ada duplikat)
+            
             while (self::where('sku', $product->sku)->exists()) {
                 $product->sku = 'SKU-' . strtoupper(Str::random(6));
             }
         });
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+              ->width(150)
+              ->height(150)
+              ->sharpen(10);
     }
 
     // 🔹 Relasi

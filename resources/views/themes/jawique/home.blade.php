@@ -1,24 +1,8 @@
 @extends('themes.jawique.layouts.app')
 
-@include('themes.jawique.shared.slider')
-
 @section('content')
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-@if (session('success') || session('status'))
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: '{{ session('success') ?? session('status') }}',
-            confirmButtonColor: '#32b37a',
-            timer: 3000
-        });
-    });
-</script>
-@endif
+@include('themes.jawique.shared.slider')
 
 <section class="popular py-5">
     <div class="container">
@@ -32,8 +16,12 @@
                 <div class="col-lg-3 col-6 mb-4">
                     <div class="card card-product border shadow-sm h-100">
                         <div class="card-img-wrapper overflow-hidden">
-                            <a href="{{ shop_product_link($product) }}">
-                            <img src="{{ shop_product_image($product->image, 'img-large') }}" class="card-img-top" alt="{{ $product->name }}">
+                            <a href="{{ route('products.show', ['categorySlug' => $product->categories->first()->slug ?? 'produk', 'productSlug' => $product->slug]) }}">
+                                @if ($product->hasMedia('products'))
+                                    <img src="{{ $product->getFirstMediaUrl('products', 'thumb') }}" class="card-img-top" alt="{{ $product->name }}">
+                                @else
+                                    <img src="https://placehold.co/280x400/e1e1e1/7f7f7f?text=No+Image" class="card-img-top" alt="Gambar Tidak Tersedia">
+                                @endif
                             </a>
                             <div class="card-actions">
                                 @guest
@@ -71,8 +59,12 @@
                 <div class="col-lg-3 col-6 mb-4">
                     <div class="card card-product border shadow-sm h-100">
                         <div class="card-img-wrapper overflow-hidden">
-                            <a href="{{ shop_product_link($product) }}">
-                            <img src="{{ shop_product_image($product->image, 'img-large') }}" class="card-img-top" alt="{{ $product->name }}">
+                             <a href="{{ route('products.show', ['categorySlug' => $product->categories->first()->slug ?? 'produk', 'productSlug' => $product->slug]) }}">
+                                @if ($product->hasMedia('products'))
+                                    <img src="{{ $product->getFirstMediaUrl('products', 'thumb') }}" class="card-img-top" alt="{{ $product->name }}">
+                                @else
+                                    <img src="https://placehold.co/280x400/e1e1e1/7f7f7f?text=No+Image" class="card-img-top" alt="Gambar Tidak Tersedia">
+                                @endif
                             </a>
                             <div class="card-actions">
                                 @guest
@@ -117,3 +109,19 @@
 </section>
 
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (session('success') || session('status'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: @json(session('success') ?? session('status')),
+        confirmButtonColor: '#32b37a',
+        timer: 3000
+    });
+</script>
+@endif
+@endpush

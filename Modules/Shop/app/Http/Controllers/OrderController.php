@@ -142,28 +142,27 @@ class OrderController extends Controller
             $response->throw();
             $shippingFees = $response->json();
                     
-        }   catch (\Exception $e) {           
+        } catch (\Exception $e) {        
             return [];
         }
 
         $availableServices = [];
-            if (isset($shippingFees['meta']['status']) && $shippingFees['meta']['status'] === 'success' && !empty($shippingFees['data'])) {
-            foreach ($shippingFees['data'] as $serviceDetail) { // Iterasi langsung di 'data'
+        if (isset($shippingFees['meta']['status']) && $shippingFees['meta']['status'] === 'success' && !empty($shippingFees['data'])) {
+            foreach ($shippingFees['data'] as $serviceDetail) {
                 $availableServices[] = [
                     'service' => $serviceDetail['service'],
                     'description' => $serviceDetail['description'],
                     'etd' => $serviceDetail['etd'],
-                    'cost' => $serviceDetail['cost'], // <-- Langsung ambil 'cost'
-                    'courier' => $serviceDetail['code'], // Mengambil kode kurir dari respons
+                    'cost' => $serviceDetail['cost'],
+                    'courier' => $serviceDetail['code'],
                     'address_id' => $address->id,
                 ];
+            }
+        } else {
+            Log::warning('Komerce.id API did not return successful data: ', $shippingFees);
         }
-    } else {
-        // Log jika API response tidak sukses atau data kosong
-        Log::warning('Komerce.id API did not return successful data: ', $shippingFees);
-    }
 
-    return $availableServices; 
+        return $availableServices; 
     }
 
     public function searchDestination(Request $request) {

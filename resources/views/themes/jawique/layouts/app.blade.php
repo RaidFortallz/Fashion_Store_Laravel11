@@ -11,14 +11,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Scripts Buat Css & Js-->
     @vite(['resources/sass/app.scss',
-                        'resources/js/app.js',
-                        //Css
-                        'resources/views/themes/jawique/assets/css/main.css',
-                        'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.css',
-                        //Js
-                        'resources/views/themes/jawique/assets/js/main.js',
-                        'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.min.js',
-                    ])
+            'resources/js/app.js',
+            //Css
+            'resources/views/themes/jawique/assets/css/main.css',
+            'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.css',
+            //Js
+            'resources/views/themes/jawique/assets/js/main.js',
+            'resources/views/themes/jawique/assets/plugins/jqueryui/jquery-ui.min.js',
+        ])
 
 </head>
 
@@ -34,6 +34,33 @@
     @include('themes.jawique.shared.footer')
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if (session('success') || session('status'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: @json(session('success') ?? session('status')),
+                    confirmButtonColor: '#32b37a',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Mohon Maaf',
+                    text: @json(session('error')),
+                    confirmButtonColor: '#ff6f61'
+                });
+            @endif
+        });
+    </script>
+
+    @stack('scripts')
 
 </body>
 

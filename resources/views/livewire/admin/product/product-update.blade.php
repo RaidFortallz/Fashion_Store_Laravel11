@@ -128,22 +128,31 @@
                                         Klik untuk menjadikan foto sampul/thumbnail.
                                     </small>
                                     <div class="row g-2">
-                                        @foreach ($product->images as $productImage)
-                                        <div class="col-6 col-sm-2 position-relative">
-                                            <button wire:click="deleteImage('{{ $productImage->id }}')" 
-                                                    type="button" 
-                                                    class="btn btn-danger"
-                                                    style="position: absolute; top: 5px; right: 5px; z-index: 10; font-size: 1.2em; padding: 0px 8px; line-height: 1; border-radius: 25%; opacity: 0.8;"
-                                                    title="Hapus Gambar">
-                                                &times;
-                                            </button>
-                                            <label class="form-imagecheck mb-2">
-                                                <input wire:click="setFeaturedImage('{{ $productImage->id }}')" name="form-imagecheck-radio" type="radio" {{ ($product->featured_image == $productImage->id) ? 'checked' : ''}} value="1" class="form-imagecheck-input">
-                                                <span class="form-imagecheck-figure">
-                                                    <img src="{{ shop_product_image($productImage) }}" alt="{{ $productImage->name }}" class="form-imagecheck-image">
-                                                </span>
-                                            </label>
-                                        </div>
+                                        @foreach ($product->getMedia('products') as $media)
+                                            <div class="col-6 col-sm-2 position-relative">
+                                                <button wire:click="deleteImage('{{ $media->id }}')" 
+                                                        type="button" 
+                                                        class="btn btn-danger"
+                                                        style="position: absolute; top: 5px; right: 5px; z-index: 10; font-size: 1.2em; padding: 0px 8px; line-height: 1; border-radius: 25%; opacity: 0.8;"
+                                                        title="Hapus Gambar">
+                                                    &times;
+                                                </button>
+
+                                                <label class="form-imagecheck mb-2">
+                                                    <input wire:click="setFeaturedImage('{{ $media->id }}')" 
+                                                        name="form-imagecheck-radio" 
+                                                        type="radio" 
+                                                        {{ ($product->featured_image == $media->id) ? 'checked' : ''}} 
+                                                        value="1" 
+                                                        class="form-imagecheck-input">
+                                                    
+                                                    <span class="form-imagecheck-figure">
+                                                        <img src="{{ $media->getUrl() }}" 
+                                                            alt="{{ $media->name }}" 
+                                                            class="form-imagecheck-image">
+                                                    </span>
+                                                </label>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>

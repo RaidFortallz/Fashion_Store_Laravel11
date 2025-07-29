@@ -3,7 +3,6 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <!-- Page pre-title -->
                     <div class="page-pretitle">
                         Produk
                     </div>
@@ -11,11 +10,9 @@
                         Daftar Produk
                     </h2>
                 </div>
-                <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
-                    <div class="btn-list">                        
+                    <div class="btn-list">                            
                         <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-product-create">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 5l0 14" />
@@ -23,13 +20,11 @@
                             </svg>
                             Tambah Produk
                         </a>
-                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Page body -->
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
@@ -78,9 +73,10 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($products as $product)
-                                    <tr>                                        
+                                    <tr>                                                
                                         <td>
-                                            <span class="avatar me-3" style="background-image: url({{ shop_product_image($product->image) }})"></span>
+                                            {{-- PERBAIKAN: Menggunakan cara Spatie yang baru --}}
+                                            <span class="avatar me-3" style="background-image: url({{ $product->getFirstMediaUrl('products', 'thumb') }})"></span>
                                         </td>
                                         <td>
                                             {{ $product->sku }}
@@ -105,7 +101,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="3">
+                                        <td colspan="7" class="text-center">
                                             Produk kosong.
                                         </td>
                                     </tr>
