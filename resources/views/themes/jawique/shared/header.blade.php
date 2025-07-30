@@ -1,14 +1,15 @@
 <!-- Nav Bar -->
 <nav class="navbar navbar-expand-lg bg-gradient-custom fixed-top py-4 shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="{{ '/' }}">Jawi<span>Que</span></a>
+        <a class="navbar-brand" href="{{ url('/') }}">Jawi<span>Que</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <form action="{{ route('products.index') }}" method="GET" class="input-group mx-auto mt-5 mt-lg-0">
+            
+            <form action="{{ route('products.index') }}" method="GET" class="input-group mx-auto mt-5 mt-lg-0" style="max-width: 400px;">
                 <input type="text" name="q" class="form-control" placeholder="Cari produk..." value="{{ request('q') }}"
                     aria-label="Cari..." aria-describedby="button-addon2">
                 <button class="btn btn-outline-light" type="submit" id="button-addon2">
@@ -24,7 +25,7 @@
                 </li>
                 <li class="nav-item me-5">
                     <a class="nav-link" href="{{ route('carts.index') }}">
-                        <i class='bx bx-cart'></i>                        
+                        <i class='bx bx-cart'></i>                                    
                     </a>
                 </li>
 
@@ -38,7 +39,6 @@
                     @endif
                 @endauth
 
-
                 <!-- Buat HP -->
                 <div class="dropdown mt-3 d-lg-none">
                     <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -46,9 +46,9 @@
                         Menu
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="{{ '/' }}">Home</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/') }}">Home</a></li>
                         <li><a class="dropdown-item" href="{{ route('products.index') }}">Produk</a></li>
-                        <li><a class="dropdown-item" href="#">About</a></li>
+                        <li><a class="dropdown-item" href="{{ route('about') }}">About Us</a></li>
                     </ul>
                 </div>
 
@@ -77,8 +77,8 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
+                                   onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
                                     Logout
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

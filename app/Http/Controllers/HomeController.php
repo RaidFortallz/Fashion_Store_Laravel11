@@ -42,4 +42,45 @@ class HomeController extends Controller
             'latestProducts' => $latestProducts,
         ]);
     }
+    /**
+     * Show the about us page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function about()
+    {
+        $team = [
+            [
+                'name' => 'Ageng Eko',
+                'role' => 'Midlaner',
+                'instagram' => 'pangeran_ageng',
+                'whatsapp' => '6285324712351', 
+                'image' => asset('images/foto_eko.jpg')
+            ],
+            [
+                'name' => 'Hikam Sirrul Arifin',
+                'role' => 'Explaner',
+                'instagram' => 'hikamsrl',
+                'whatsapp' => '628882370643',
+                'image' => asset('images/foto_hikam.jpg')
+            ],
+            [
+                'name' => 'Muhammad Dimas Daniswara',
+                'role' => 'Roamer',
+                'instagram' => 'm.dimsssdpp',
+                'whatsapp' => '6281927310145', 
+                'image' => asset('images/foto_dimas.png')
+            ],
+            [
+                'name' => 'Naufal Pratista Sugandhi',
+                'role' => 'Jungler',
+                'instagram' => 'naufalpratistas',
+                'whatsapp' => '6289513149721', 
+                'image' => asset('images/foto_naufal.jpg')
+            ],
+        ];
+
+        return view('themes.jawique.about.about', ['team' => $team]);
+    }
 }
+

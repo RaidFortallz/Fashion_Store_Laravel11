@@ -15,7 +15,7 @@
                     <ul class="p-0">
                         <li><a href="{{ '/' }}" class="text-dark">Home</a></li>
                         <li class="mt-3"><a href="{{ route('products.index') }}" class="text-dark">Produk</a></li>
-                        <li class="mt-3"><a href="#" class="text-dark">About</a></li>
+                        <li class="mt-3"><a href="{{ route('about') }}" class="text-dark">About</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mt-4 mt-sm-0">

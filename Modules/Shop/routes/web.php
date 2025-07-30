@@ -9,6 +9,7 @@ use Modules\Shop\Http\Controllers\ShopController;
 use Modules\Shop\Http\Controllers\ProductController;
 use Modules\Shop\Http\Controllers\AddressController;
 use Modules\Shop\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HomeController;
 
 //Route Produk
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -27,6 +28,8 @@ Route::get('/tag/{tagSlug}', [ProductController::class, 'tag'])->name('products.
 Route::post('/payments/midtrans', [PaymentController::class, 'midtrans'])
 ->withoutMiddleware([VerifyCsrfToken::class])->name('payments.midtrans');
 
+//Route About
+Route::get('/about-us', [HomeController::class, 'about'])->name('about');
 
 //Route Keranjang & Checkout
 Route::middleware(['auth'])->group(function() {
