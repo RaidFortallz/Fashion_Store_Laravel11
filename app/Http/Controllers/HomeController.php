@@ -65,11 +65,11 @@ class HomeController extends Controller
                 'image' => asset('images/foto_hikam.jpg')
             ],
             [
-                'name' => 'Muhammad Dimas Daniswara',
+                'name' => 'M Dimas Daniswara Putra',
                 'role' => 'Roamer',
                 'instagram' => 'm.dimsssdpp',
                 'whatsapp' => '6281927310145', 
-                'image' => asset('images/foto_dimas.png')
+                'image' => asset('images/foto_dimas.jpg')
             ],
             [
                 'name' => 'Naufal Pratista Sugandhi',

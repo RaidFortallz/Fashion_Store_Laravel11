@@ -13,7 +13,7 @@
                 <input type="text" name="q" class="form-control" placeholder="Cari produk..." value="{{ request('q') }}"
                     aria-label="Cari..." aria-describedby="button-addon2">
                 <button class="btn btn-outline-light" type="submit" id="button-addon2">
-                    <i class='bx bx-search-big'></i>
+                    <i class='bx bx-search'></i>
                 </button>
             </form>
 
