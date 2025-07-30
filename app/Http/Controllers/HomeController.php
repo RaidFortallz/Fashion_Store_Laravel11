@@ -29,14 +29,17 @@ class HomeController extends Controller
                                  ->take(8)
                                  ->get();
         
-        $popularProducts = Product::where('status', Product::ACTIVE)
+        $discountedProducts = Product::where('status', Product::ACTIVE)
+                                  ->whereNotNull('sale_price')
+                                  ->whereColumn('sale_price', '<', 'price')
+                                  ->orderBy('updated_at', 'desc')
                                   ->inRandomOrder() 
                                   ->take(4)
                                   ->get();
 
         return view('themes.jawique.home', [
+            'popularProducts' => $discountedProducts,
             'latestProducts' => $latestProducts,
-            'popularProducts' => $popularProducts,
         ]);
     }
 }

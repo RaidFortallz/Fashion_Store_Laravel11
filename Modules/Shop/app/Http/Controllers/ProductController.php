@@ -46,6 +46,14 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+        $products = Product::where('status', Product::ACTIVE);
+
+        //diskon
+        if ($request->query('sale') == 1) {
+            $products->whereNotNull('sale_price')->whereColumn('sale_price', '<', 'price');
+        }
+
+        //sorting filter
         $priceFilter = $this->getPriceFilter($request); 
 
         $options = [
@@ -75,6 +83,27 @@ class ProductController extends Controller
         $this->data['products'] = $this->productRepository->findAll($options);
         
         return $this->loadTheme('products.index', $this->data);
+    }
+
+    public function discountedProducts()
+    {
+        // Panggil method dari ProductRepository untuk mendapatkan semua produk diskon
+        // Anda bisa tambahkan pagination di sini jika daftar produk diskon banyak
+        $products = $this->productRepository->findDiscountedProducts(20); // Ambil lebih banyak, atau paginate
+
+        // Data untuk Breadcrumb atau Header Halaman
+        $pageTitle = "Produk Sedang Diskon";
+        $breadcrumbItems = [
+            ['name' => 'Home', 'url' => url('/')],
+            ['name' => 'Produk', 'url' => route('products.index')],
+            ['name' => $pageTitle, 'url' => '#', 'active' => true],
+        ];
+
+        return $this->loadTheme('products.sale_price_discount', [
+            'products' => $products,
+            'pageTitle' => $pageTitle,
+            'breadcrumbItems' => $breadcrumbItems,
+        ]);
     }
 
     public function category($categorySlug) {

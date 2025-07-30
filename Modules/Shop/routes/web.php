@@ -13,6 +13,9 @@ use Modules\Shop\Http\Controllers\FavoriteController;
 //Route Produk
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
+//Route Produk Diskon
+Route::get('/products/discount', [ProductController::class, 'discountedProducts'])->name('products.discount');
+
 //Route List Kategori
 Route::get('/category/{categorySlug}', [ProductController::class, 'category'])->name('products.category');
 

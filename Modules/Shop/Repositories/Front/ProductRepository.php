@@ -2,6 +2,7 @@
 
 namespace Modules\Shop\Repositories\Front;
 
+use Illuminate\Database\Eloquent\Collection;
 use Modules\Shop\Models\Category;
 use Modules\Shop\Models\Product;
 use Modules\Shop\Models\Tag;
@@ -71,5 +72,17 @@ class ProductRepository implements ProductRepositoryInterfaces {
 
     public function findByID($id) {
         return Product::where('id', $id)->firstOrFail();
+    }
+    
+    public function findDiscountedProducts($limit = 8) : Collection
+    {
+        return Product::where('status', Product::ACTIVE) // Pastikan produk aktif
+                        ->whereNotNull('sale_price') // Pastikan ada sale_price
+                        ->whereColumn('sale_price', '<', 'price') // Pastikan sale_price lebih kecil dari price (ada diskon)
+                        ->orderBy('sale_price', 'asc') // Urutkan dari harga diskon termurah
+                        // Atau orderByRaw('((price - sale_price) / price) DESC') untuk diskon persentase terbesar
+                        ->with(['categories', 'tags']) // Muat relasi jika dibutuhkan di Blade
+                        ->take($limit)
+                        ->get();
     }
 }
