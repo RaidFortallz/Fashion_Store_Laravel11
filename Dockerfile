@@ -1,21 +1,26 @@
-# Gunakan base image PHP FPM yang stabil dari Docker Hub
+# Gunakan base image PHP FPM yang stabil
 FROM php:8.2-fpm-alpine
 
-# Instal dependensi sistem yang dibutuhkan untuk ekstensi PHP
-# Pastikan setiap baris diakhiri dengan backslash (\) TANPA SPASI SETELAHNYA,
-# dan TIDAK ADA BARIS KOSONG di dalam daftar ini.
+# Install tools dan library yang diperlukan
 RUN apk add --no-cache \
-    curl-dev \
+    bash \
     libxml2-dev \
-    zip \
-    unzip \
-    git \
-    build-base \
-    imagemagick-dev \
+    oniguruma-dev \
+    icu-dev \
     libpng-dev \
-    libjpeg-turbo-dev
+    libjpeg-turbo-dev \
+    freetype-dev \
+    zlib-dev \
+    curl-dev \
+    openssl-dev \
+    libzip-dev \
+    autoconf \
+    g++ \
+    make \
+    git \
+    unzip
 
-# Instal ekstensi PHP yang dibutuhkan aplikasi Anda
+# Install ekstensi PHP dasar
 RUN docker-php-ext-install \
     ctype \
     curl \
@@ -25,28 +30,36 @@ RUN docker-php-ext-install \
     hash \
     mbstring \
     openssl \
-    pcre \
+    pdo \
     pdo_mysql \
     session \
     tokenizer \
-    xml \
-    exif \
-    gd
+    xml
 
-# Atur direktori kerja ke /app di dalam container
+# Build dan install ekstensi GD (harus dikonfigurasi terlebih dahulu)
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    --with-webp && \
+    docker-php-ext-install gd
+
+# Install Composer secara global
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
+
+# Set working directory
 WORKDIR /app
 
-# Salin file Composer agar bisa install dependensi
+# Salin file composer.json dan composer.lock ke container
 COPY composer.json composer.lock ./
 
-# Install dependensi Composer
-RUN composer install --optimize-autoloader --no-scripts --no-interaction --no-dev
+# Install dependency PHP menggunakan Composer (tanpa dev dan non-interaktif)
+RUN composer install --no-dev --no-interaction --optimize-autoloader
 
-# Salin sisa kode aplikasi Anda
-COPY . /app
+# Salin semua file project ke dalam container
+COPY . .
 
-# Expose port PHP-FPM (default 9000)
+# Expose port PHP-FPM
 EXPOSE 9000
 
-# Jalankan PHP-FPM ketika container dimulai
+# Jalankan php-fpm saat container dijalankan
 CMD ["php-fpm"]
