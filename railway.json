@@ -1,19 +1,10 @@
 {
-  "$schema": "https://railway.com/railway.schema.json",
+  "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
+    "builder": "NIXPACKS"
   },
   "deploy": {
-    "runtime": "V2",
-    "numReplicas": 1,
     "startCommand": "php artisan migrate --force && php artisan serve --host 0.0.0.0 --port $PORT",
-    "sleepApplication": false,
-    "multiRegionConfig": {
-      "asia-southeast1-eqsg3a": {
-        "numReplicas": 1
-      }
-    },
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
