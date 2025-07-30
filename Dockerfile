@@ -1,7 +1,7 @@
-# Gunakan base image PHP FPM yang stabil
+# Gunakan base image PHP FPM berbasis Alpine
 FROM php:8.2-fpm-alpine
 
-# Install tools dan library yang diperlukan
+# Install dependencies sistem
 RUN apk add --no-cache \
     bash \
     libxml2-dev \
@@ -18,10 +18,11 @@ RUN apk add --no-cache \
     g++ \
     make \
     git \
-    unzip
+    unzip \
+    libwebp-dev
 
-# Install ekstensi PHP dasar
-RUN docker-php-ext-install \
+# Install ekstensi PHP dasar + tambahan Laravel
+RUN docker-php-ext-install -j$(nproc) \
     ctype \
     curl \
     dom \
@@ -34,32 +35,34 @@ RUN docker-php-ext-install \
     pdo_mysql \
     session \
     tokenizer \
-    xml
+    xml \
+    bcmath \
+    exif
 
-# Build dan install ekstensi GD (harus dikonfigurasi terlebih dahulu)
+# Konfigurasi dan install ekstensi GD
 RUN docker-php-ext-configure gd \
     --with-freetype \
     --with-jpeg \
     --with-webp && \
     docker-php-ext-install gd
 
-# Install Composer secara global
+# Install Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /app
 
-# Salin file composer.json dan composer.lock ke container
+# Copy composer files terlebih dahulu
 COPY composer.json composer.lock ./
 
-# Install dependency PHP menggunakan Composer (tanpa dev dan non-interaktif)
+# Install dependency composer
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 
-# Salin semua file project ke dalam container
+# Salin seluruh project
 COPY . .
 
-# Expose port PHP-FPM
+# Expose port default PHP-FPM
 EXPOSE 9000
 
-# Jalankan php-fpm saat container dijalankan
+# Jalankan php-fpm
 CMD ["php-fpm"]
