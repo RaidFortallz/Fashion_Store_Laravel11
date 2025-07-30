@@ -8,6 +8,7 @@ use Modules\Shop\Http\Controllers\PaymentController;
 use Modules\Shop\Http\Controllers\ShopController;
 use Modules\Shop\Http\Controllers\ProductController;
 use Modules\Shop\Http\Controllers\AddressController;
+use Modules\Shop\Http\Controllers\FavoriteController;
 
 //Route Produk
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -42,6 +43,10 @@ Route::middleware(['auth'])->group(function() {
 Route::get('/{categorySlug}/{productSlug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/search-destination', [OrderController::class, 'searchDestination'])->name('public.search-destination');
+
+//Route Favorite
+Route::post('/favorite/{product}', [FavoriteController::class, 'toggle'])->name('favorite.toggle');
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
 //Route Kategori alamat
 Route::middleware('auth')->group(function () {

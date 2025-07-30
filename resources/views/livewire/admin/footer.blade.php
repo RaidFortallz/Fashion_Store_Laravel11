@@ -6,11 +6,10 @@
                 <ul class="list-inline list-inline-dots mb-0">
                     <li class="list-inline-item">
                         Copyright &copy; 2025
-                        <a href="." class="link-secondary">Jawique</a>.
-                        
+                        <a href="#" class="link-secondary">Jawique</a>.
                     </li>
                     <li class="list-inline-item">
-                        <a href="./changelog.html" class="link-secondary" rel="noopener">
+                        <a href="#" class="link-secondary" rel="noopener">
                             UMKM Fashion Store
                         </a>
                     </li>

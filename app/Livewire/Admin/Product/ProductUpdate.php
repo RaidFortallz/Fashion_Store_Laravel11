@@ -161,6 +161,7 @@ class ProductUpdate extends Component
                       ->toMediaCollection('products');
 
         $this->product = $this->product->fresh();
+        $this->product->load('media');
         
         $this->image = null;
 

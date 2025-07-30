@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use App\Traits\UuidTrait;
+use Modules\Shop\Models\Product;
 
 class User extends Authenticatable
 {
@@ -53,5 +54,9 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasMany(\Modules\Shop\Models\Address::class);
+    }
+
+    public function favorites() {
+        return $this->belongsToMany(Product::class, 'shop_favorites')->withTimestamps();
     }
 }

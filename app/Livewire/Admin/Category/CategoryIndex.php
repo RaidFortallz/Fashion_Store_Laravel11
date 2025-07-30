@@ -31,6 +31,7 @@ class CategoryIndex extends Component
 
     public function delete($id) {
         $category = Category::findOrFail($id);
+        $category->products()->detach();
         $category->delete();
 
         session()->flash('success', 'Kategori dihapus!');

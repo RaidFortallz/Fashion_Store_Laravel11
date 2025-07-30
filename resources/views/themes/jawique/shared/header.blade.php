@@ -18,16 +18,26 @@
 
             <ul class="navbar-nav ms-auto mt-3 mt-sm-0">
                 <li class="nav-item me-3">
-                    <a class="nav-link active" href="#">
+                    <a class="nav-link active" href="{{ route('favorites.index') }}">
                         <i class='bx bx-heart bx-rotate-90 bx-flip-horizontal'></i>
                     </a>
                 </li>
                 <li class="nav-item me-5">
                     <a class="nav-link" href="{{ route('carts.index') }}">
-                        <i class='bx bx-cart'></i>
-                        <span class="badge text-bg-success rounded-circle position-absolute">1</span>
+                        <i class='bx bx-cart'></i>                        
                     </a>
                 </li>
+
+                @auth
+                    @if (Auth::user()->is_admin)
+                        <li class="nav-item me-3">
+                            <a class="nav-link btn btn-outline-light fw-bold" href="{{ route('admin.dashboard.index') }}">
+                                <i class='bx bx-cog'></i> Dashboard
+                            </a>
+                        </li>
+                    @endif
+                @endauth
+
 
                 <!-- Buat HP -->
                 <div class="dropdown mt-3 d-lg-none">

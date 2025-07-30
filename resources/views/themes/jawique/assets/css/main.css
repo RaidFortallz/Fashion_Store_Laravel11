@@ -671,7 +671,18 @@ footer .row-content a:hover {
 footer .row-copy i {
   font-size: 25px;
   color: #A3C933;
-}/*# sourceMappingURL=main.css.map */
+}
+.desc-footer {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.desc-footer li {
+    margin-bottom: 6px;
+}
+/*# sourceMappingURL=main.css.map */
 
 .card-product {
  transition: transform 0.3s ease, box-shadow 0.3s ease;

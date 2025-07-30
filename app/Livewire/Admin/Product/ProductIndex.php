@@ -4,7 +4,10 @@ namespace App\Livewire\Admin\Product;
 
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Modules\Shop\Models\CartItem;
+use Modules\Shop\Models\OrderItem;
 use Modules\Shop\Models\Product;
+use Modules\Shop\Models\ProductImage;
 
 class ProductIndex extends Component
 {
@@ -29,6 +32,14 @@ class ProductIndex extends Component
         $product = Product::findOrFail($id);
         $product->categories()->detach();
         $product->tags()->detach();
+        CartItem::where('product_id', $product->id)->delete();
+        OrderItem::where('product_id', $product->id)->delete();
+        $product->clearMediaCollection('products');
+        ProductImage::where('product_id', $product->id)->delete();
+        if ($product->inventory) {
+            $product->inventory()->delete(); 
+        }
+        $product->favoritedByUsers()->detach();
         $product->delete();
 
         session()->flash('success', 'Produk dihapus!');

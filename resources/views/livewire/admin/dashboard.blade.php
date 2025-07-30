@@ -4,40 +4,14 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
-                    <div class="page-pretitle">
-                        Overview
+                    <div class="page-pretitle fs-3">
+                        Selamat Datang
                     </div>
-                    <h2 class="page-title">
-                        Combo layout
+                    <h2 class="page-title fs-2">
+                        Admin
                     </h2>
                 </div>
-                <!-- Page title actions -->
-                <div class="col-auto ms-auto d-print-none">
-                    <div class="btn-list">
-                        <span class="d-none d-sm-inline">
-                            <a href="#" class="btn">
-                                New view
-                            </a>
-                        </span>
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" />
-                            </svg>
-                            Create new report
-                        </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -148,39 +122,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="subheader">Active users</div>
-                                <div class="ms-auto lh-1">
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item active" href="#">Last 7 days</a>
-                                            <a class="dropdown-item" href="#">Last 30 days</a>
-                                            <a class="dropdown-item" href="#">Last 3 months</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-baseline">
-                                <div class="h1 mb-3 me-2">2,986</div>
-                                <div class="me-auto">
-                                    <span class="text-green d-inline-flex align-items-center lh-1">
-                                        4% <!-- Download SVG icon from http://tabler-icons.io/i/trending-up -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M3 17l6 -6l4 4l8 -8" />
-                                            <path d="M14 7l7 0l0 7" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                            <div id="chart-active-users" class="chart-sm"></div>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="col-12">
                     <div class="row row-cards">
                         <div class="col-sm-6 col-lg-3">
@@ -235,54 +177,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card card-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="bg-twitter text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-twitter -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-medium">
-                                                623 Shares
-                                            </div>
-                                            <div class="text-secondary">
-                                                16 today
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card card-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span class="bg-facebook text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-facebook -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-medium">
-                                                132 Likes
-                                            </div>
-                                            <div class="text-secondary">
-                                                21 today
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -461,19 +356,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    <span class="avatar">HS</span>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="text-truncate">
-                                                        <strong>Haskel Shelper</strong> change status of <strong>Tabler Icons</strong> from <strong>open</strong> to <strong>closed</strong>.
-                                                    </div>
-                                                    <div class="text-secondary">today</div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                         <div>
                                             <div class="row">
                                                 <div class="col-auto">
@@ -707,21 +590,7 @@
                                 </svg>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-10">
-                                    <h3 class="h1">Tabler Icons</h3>
-                                    <div class="markdown text-secondary">
-                                        All icons come from the Tabler Icons set and are MIT-licensed. Visit
-                                        <a href="https://tabler-icons.io" target="_blank" rel="noopener">tabler-icons.io</a>,
-                                        download any of the 4637 icons in SVG, PNG or&nbsp;React and use them in your favourite design tools.
-                                    </div>
-                                    <div class="mt-3">
-                                        <a href="https://tabler-icons.io" class="btn btn-primary" target="_blank" rel="noopener">Download icons</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>            
             </div>

@@ -99,7 +99,7 @@ class OrderUpdate extends Component
             foreach ($order->items as $item) {
                 $inventory = ProductInventory::where('product_id', $item->product_id)->firstOrFail();
                 $deductedQty = $item->qty;
-                $stockAfter = $inventory->stock - $deductedQty;
+                $stockAfter = $inventory->qty - $deductedQty;
                 if ($stockAfter < 0) {
                     session()->flash('error', 'Stok tidak cukup untuk produk ' . $item->product->name);
                 }

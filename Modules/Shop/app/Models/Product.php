@@ -2,6 +2,7 @@
 
 namespace Modules\Shop\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Shop\Database\Factories\ProductFactory;
@@ -155,5 +156,9 @@ class Product extends Model implements HasMedia
 
     public function getStockAttribute() {
         return $this->inventory ? $this->inventory->qty : 0;
+    }
+
+    public function favoritedByUsers() {
+        return $this->belongsToMany(User::class, 'shop_favorites')->withTimestamps();
     }
 }

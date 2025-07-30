@@ -18,7 +18,7 @@
                         <div class="card-img-wrapper overflow-hidden">
                             <a href="{{ route('products.show', ['categorySlug' => $product->categories->first()->slug ?? 'produk', 'productSlug' => $product->slug]) }}">
                                 @if ($product->hasMedia('products'))
-                                    <img src="{{ $product->getFirstMediaUrl('products', 'thumb') }}" class="card-img-top" alt="{{ $product->name }}">
+                                    <img src="{{ $product->getFirstMediaUrl('products', 'large') }}" class="card-img-top" alt="{{ $product->name }}">
                                 @else
                                     <img src="https://placehold.co/280x400/e1e1e1/7f7f7f?text=No+Image" class="card-img-top" alt="Gambar Tidak Tersedia">
                                 @endif
@@ -27,7 +27,14 @@
                                 @guest
                                     <a href="javascript:void(0)" onclick="showLoginAlert()" class="btn btn-cart"><i class='bx bx-cart'></i></a>
                                 @else
-                                    <a href="#" class="btn btn-cart"><i class='bx bx-cart'></i></a>
+                                    <form action="{{ route('carts.store') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="qty" value="1">
+                                        <button type="submit" class="btn btn-cart">
+                                            <i class='bx bx-cart'></i>
+                                        </button>
+                                    </form>
                                 @endguest
                             </div>
                         </div>
@@ -61,7 +68,7 @@
                         <div class="card-img-wrapper overflow-hidden">
                              <a href="{{ route('products.show', ['categorySlug' => $product->categories->first()->slug ?? 'produk', 'productSlug' => $product->slug]) }}">
                                 @if ($product->hasMedia('products'))
-                                    <img src="{{ $product->getFirstMediaUrl('products', 'thumb') }}" class="card-img-top" alt="{{ $product->name }}">
+                                    <img src="{{ $product->getFirstMediaUrl('products', 'large') }}" class="card-img-top" alt="{{ $product->name }}">
                                 @else
                                     <img src="https://placehold.co/280x400/e1e1e1/7f7f7f?text=No+Image" class="card-img-top" alt="Gambar Tidak Tersedia">
                                 @endif
@@ -70,7 +77,14 @@
                                 @guest
                                     <a href="javascript:void(0)" onclick="showLoginAlert()" class="btn btn-cart"><i class='bx bx-cart'></i></a>
                                 @else
-                                    <a href="#" class="btn btn-cart"><i class='bx bx-cart'></i></a>
+                                    <form action="{{ route('carts.store') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="qty" value="1">
+                                        <button type="submit" class="btn btn-cart">
+                                            <i class='bx bx-cart'></i>
+                                        </button>
+                                    </form>
                                 @endguest
                             </div>
                         </div>

@@ -7,7 +7,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('/products') }}">Products</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/products') }}">Produk</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
             </ol>
         </nav>
@@ -109,11 +109,19 @@
                         <button type="submit" class="btn btn-add-cart">
                             <i class='bx bx-cart'></i> Tambah ke keranjang
                         </button>
+                        {{ html()->form()->close() }}
 
-                        <a class="btn btn-light" href="shop-wishlist.html" data-bs-toggle="tooltip"
-                           aria-label="Wishlist"><i class="bx bx-heart"></i></a>
+                        @php
+                            $isFavorited = auth()->check() && auth()->user()->favorites->contains($product->id);
+                        @endphp
+                        <form method="POST" action="{{ route('favorite.toggle', $product->id) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-light" data-bs-toggle="tooltip" title="Tambahkan ke favorit">
+                                <i class="{{ $isFavorited ? 'bx bxs-heart text-danger' : 'bx bx-heart' }} "></i>
+                            </button>
+                        </form>
+                        
                     </div>
-                    {{ html()->form()->close() }}
 
                 </div>
                 <hr class="my-6">

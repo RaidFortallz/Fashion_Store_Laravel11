@@ -3,7 +3,7 @@
         <div class="text-center position-relative" style="height: 200px; overflow: hidden;">
             <a href="{{ route('products.show', ['categorySlug' => $product->categories->first()->slug ?? 'produk', 'productSlug' => $product->slug]) }}">
                 @if ($product->hasMedia('products'))
-                    <img src="{{ $product->getFirstMediaUrl('products', 'thumb') }}" 
+                    <img src="{{ $product->getFirstMediaUrl('products', 'large') }}" 
                          alt="{{ $product->name }}" 
                          class="img-fluid card-img-top"
                          style="height: 100%; width: 100%; object-fit: cover;">
