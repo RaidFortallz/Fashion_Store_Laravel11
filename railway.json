@@ -6,7 +6,7 @@
   },
   "deploy": {
     "startCommand": "php artisan migrate --force && php artisan serve --host 0.0.0.0 --port $PORT",
-    "runtime": "v2",
+    "runtime": "V2",
     "numReplicas": 1,
     "sleepApplication": false,
     "multiRegionConfig": {
