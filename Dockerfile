@@ -1,67 +1,23 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
-# Install system dependencies
-RUN apk add --no-cache \
-    bash \
-    libxml2-dev \
-    oniguruma-dev \
-    icu-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    zlib-dev \
-    curl-dev \
-    openssl-dev \
-    libzip-dev \
-    autoconf \
-    g++ \
-    make \
-    git \
-    unzip \
-    libwebp-dev \
-    libexif-dev \
-    imagemagick-dev
+WORKDIR /var/www
 
-# Install PHP extensions
-RUN docker-php-ext-install -j$(nproc) \
-    ctype \
-    curl \
-    dom \
-    fileinfo \
-    mbstring \
-    openssl \
-    pdo \
-    pdo_mysql \
-    session \
-    tokenizer \
-    xml \
-    bcmath \
-    exif
+RUN apt-get update && apt-get install -y \
+    zip unzip curl git libxml2-dev libzip-dev libpng-dev libjpeg-dev libonig-dev \
+    sqlite3 libsqlite3-dev
 
-# Configure and install GD
-RUN docker-php-ext-configure gd \
-    --with-freetype \
-    --with-jpeg \
-    --with-webp && \
-    docker-php-ext-install gd
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Install Composer
-COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /app
+COPY . /var/www
+COPY --chown=www-data:www-data . /var/www
 
-# Copy composer files
-COPY composer.json composer.lock ./
+RUN chmod -R 755 /var/www
+RUN composer install
 
-# Install composer dependencies
-RUN composer install --no-dev --no-interaction --optimize-autoloader
+COPY .env.example .env
+RUN php artisan key:generate
 
-# Copy the rest of the app
-COPY . .
-
-# Expose PHP-FPM port
-EXPOSE 9000
-
-# Run php-fpm
-CMD ["php-fpm"]
+EXPOSE 8000
+CMD php artisan serve --host=0.0.0.0 --port=8000
