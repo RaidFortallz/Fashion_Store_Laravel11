@@ -27,6 +27,7 @@ COPY .env.production .env
 # Laravel setup
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader && \
     php artisan key:generate && \
+    php artisan config:cache && \
     php artisan migrate --force
 
 # === Stage 2: Final runtime image with Nginx & Supervisor ===
@@ -51,3 +52,4 @@ EXPOSE 80
 
 # Start supervisor (will start php-fpm and nginx)
 CMD ["/usr/bin/supervisord"]
+
