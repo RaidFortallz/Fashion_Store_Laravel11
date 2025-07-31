@@ -49,3 +49,5 @@ EXPOSE 80
 
 # Run supervisord to manage services
 CMD ["/usr/bin/supervisord"]
+
+COPY php-fpm.conf /usr/local/etc/php-fpm.d/zz-custom.conf
