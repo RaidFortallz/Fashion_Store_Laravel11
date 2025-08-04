@@ -55,9 +55,6 @@ RUN chmod -R 775 storage bootstrap/cache && \
 # Stage 2: Run with Nginx + PHP-FPM
 FROM php:8.2-fpm-alpine
 
-# Reinstall nginx and supervisor
-RUN apt-get update && apt-get install -y nginx supervisor
-
 
 # Salin ekstensi yang sudah diinstal dari stage 'backend'
 COPY --from=backend /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
