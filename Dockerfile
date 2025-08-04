@@ -3,7 +3,8 @@ FROM php:8.2-fpm-alpine as backend
 
 WORKDIR /var/www
 
-# Instal dependensi sistem yang dibutuhkan untuk ekstensi PHP
+# Instal dependensi sistem dan ekstensi PHP dalam satu perintah RUN
+# Ini adalah praktik terbaik di Dockerfile
 RUN apk add --no-cache \
     curl \
     libxml2-dev \
@@ -17,20 +18,22 @@ RUN apk add --no-cache \
     oniguruma-dev \
     mysql-client \
     nginx \
-    supervisor
-
-# Instal ekstensi PHP yang dibutuhkan aplikasi Anda
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    supervisor \
+    # Setelah dependensi sistem, install ekstensi PHP
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
-    pdo \
-    pdo_mysql \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath \
-    zip \
-    gd \
-    && rm -rf /usr/local/etc/php/conf.d/docker-php-ext-*.ini
+        pdo \
+        pdo_mysql \
+        mbstring \
+        exif \
+        pcntl \
+        bcmath \
+        zip \
+        gd \
+    # Bersihkan file .ini sementara agar tidak menyumbat
+    && rm -rf /usr/local/etc/php/conf.d/docker-php-ext-*.ini \
+    # Bersihkan cache apk untuk layer yang lebih kecil
+    && rm -rf /var/cache/apk/*
 
 # Salin file Composer agar bisa install dependensi
 COPY composer.json composer.lock ./
@@ -52,7 +55,7 @@ RUN chmod -R 775 storage bootstrap/cache && \
 # Stage 2: Run with Nginx + PHP-FPM
 FROM php:8.2-fpm-alpine
 
-# Instal system dependencies yang dibutuhkan untuk RUNTIME (bukan build)
+# Instal system dependencies yang dibutuhkan untuk RUNTIME
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -70,7 +73,7 @@ COPY --from=backend /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 # Salin kode aplikasi dari stage pertama
 COPY --from=backend /var/www /var/www
 
-# Reinstall nginx and supervisor
+# Konfigurasi Nginx dan Supervisor
 COPY nginx.conf /etc/nginx/sites-enabled/default
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
