@@ -5,8 +5,13 @@ WORKDIR /var/www
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    zip unzip curl git build-base imagemagick-dev libxml2-dev libzip-dev libpng-dev libjpeg-dev libonig-dev sqlite3 libsqlite3-dev libfreetype6-dev libjpeg62-turbo-dev libwebp-dev oniguruma-dev mysql-client nginx supervisor && \
-    docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
+    zip unzip curl git libxml2-dev libzip-dev libpng-dev libjpeg-dev \
+    libonig-dev sqlite3 libsqlite3-dev libfreetype6-dev \
+    libjpeg62-turbo-dev libwebp-dev libmagickwand-dev \
+    default-mysql-client nginx supervisor && \
+    docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip && \
+    pecl install imagick && docker-php-ext-enable imagick
+
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
