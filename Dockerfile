@@ -29,6 +29,13 @@ RUN chmod -R 775 storage bootstrap/cache && \
 # Stage 2: Run with Nginx + PHP-FPM
 FROM php:8.2-fpm
 
+# Reinstall needed PHP extensions
+RUN apt-get update && apt-get install -y \
+    libzip-dev libpng-dev libjpeg-dev libonig-dev libxml2-dev \
+    libfreetype6-dev libjpeg62-turbo-dev libwebp-dev libmagickwand-dev \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip \
+    && pecl install imagick && docker-php-ext-enable imagicks
+
 COPY --from=backend /var/www /var/www
 COPY --from=backend /etc /etc
 
